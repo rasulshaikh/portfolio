@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Rasul Shaikh - AI GTM Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=VT323&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -1285,90 +1285,141 @@ Auth: X-N8N-API-KEY header</pre>
 </footer>
 
 <script>
-// ===== THREE.JS PARTICLE BACKGROUND =====
+// ===== THREE.JS — Optimized Glass Scene =====
 (function() {
   const canvas = document.getElementById('bg-canvas');
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  let scene, camera, renderer, particles, mouseX = 0, mouseY = 0;
+  let targetX = 0, targetY = 0, frameId = null;
+  const isMobile = window.innerWidth < 768;
+  const isPortrait = window.innerHeight > window.innerWidth;
+  const MAX_PARTICLES = isMobile ? 300 : 700;
+  const MAX_PIXEL_RATIO = isMobile ? 1.0 : 1;
 
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.z = 30;
+  function init() {
+    renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false, powerPreference: 'low-power' });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, MAX_PIXEL_RATIO));
+    renderer.setClearColor(0x000000, 0);
 
-  const particleCount = window.innerWidth < 768 ? 600 : 1200;
-  const geo = new THREE.BufferGeometry();
-  const positions = new Float32Array(particleCount * 3);
-  const colors = new Float32Array(particleCount * 3);
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 500);
+    camera.position.z = 35;
 
-  const colorOptions = [
-    new THREE.Color(0xFF6B35),
-    new THREE.Color(0xffffff),
-    new THREE.Color(0x888888),
-  ];
+    const glassGroup = new THREE.Group();
+    const shapeCount = (isMobile || isPortrait) ? 5 : 10;
+    for (let i = 0; i < shapeCount; i++) {
+      const geo = i % 2 === 0
+        ? new THREE.IcosahedronGeometry(Math.random() * 1.2 + 0.4, 1)
+        : new THREE.SphereGeometry(Math.random() * 1.0 + 0.25, 12, 12);
+      const mat = new THREE.MeshPhysicalMaterial({
+        color: 0xFF6B35,
+        transparent: true,
+        opacity: 0.10 + Math.random() * 0.08,
+        roughness: 0.05,
+        metalness: 0.0,
+        transmission: 0.4,
+        thickness: 1.2,
+        wireframe: Math.random() > 0.55,
+      });
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.position.set(
+        (Math.random() - 0.5) * (isPortrait ? 40 : 50),
+        (Math.random() - 0.5) * (isPortrait ? 50 : 40),
+        (Math.random() - 0.5) * 18 - 4
+      );
+      mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
+      mesh._rotSpeed = { x: (Math.random() - 0.5) * 0.003, y: (Math.random() - 0.5) * 0.005 };
+      mesh._floatOffset = Math.random() * Math.PI * 2;
+      glassGroup.add(mesh);
+    }
+    scene.add(glassGroup);
 
-  for (let i = 0; i < particleCount; i++) {
-    positions[i * 3] = (Math.random() - 0.5) * 80;
-    positions[i * 3 + 1] = (Math.random() - 0.5) * 80;
-    positions[i * 3 + 2] = (Math.random() - 0.5) * 50;
-
-    const color = colorOptions[Math.floor(Math.random() * colorOptions.length)];
-    colors[i * 3] = color.r;
-    colors[i * 3 + 1] = color.g;
-    colors[i * 3 + 2] = color.b;
+    const geo = new THREE.BufferGeometry();
+    const positions = new Float32Array(MAX_PARTICLES * 3);
+    const colorsArr = new Float32Array(MAX_PARTICLES * 3);
+    for (let i = 0; i < MAX_PARTICLES; i++) {
+      positions[i * 3] = (Math.random() - 0.5) * (isPortrait ? 60 : 80);
+      positions[i * 3 + 1] = (Math.random() - 0.5) * (isPortrait ? 70 : 60);
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 40;
+      const t = Math.random();
+      colorsArr[i * 3] = t * 0.8 + 0.2;
+      colorsArr[i * 3 + 1] = t * 0.4 + 0.1;
+      colorsArr[i * 3 + 2] = t * 0.2;
+    }
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geo.setAttribute('color', new THREE.BufferAttribute(colorsArr, 3));
+    const mat = new THREE.PointsMaterial({
+      size: isMobile ? 0.05 : 0.07,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.35,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    particles = new THREE.Points(geo, mat);
+    scene.add(particles);
   }
 
-  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-  const material = new THREE.PointsMaterial({
-    size: 0.1,
-    vertexColors: true,
-    transparent: true,
-    opacity: 0.5,
-    blending: THREE.AdditiveBlending,
-    depthWrite: false,
-  });
-
-  const particles = new THREE.Points(geo, material);
-  scene.add(particles);
-
-  let mouseX = 0, mouseY = 0;
-  let targetMouseX = 0, targetMouseY = 0;
-
-  document.addEventListener('mousemove', (e) => {
-    targetMouseX = (e.clientX / window.innerWidth - 0.5) * 3;
-    targetMouseY = (e.clientY / window.innerHeight - 0.5) * 3;
-  });
+  let lastMove = 0;
+  function onPointer(e) {
+    const now = Date.now();
+    if (now - lastMove < 16) return;
+    lastMove = now;
+    const x = ('touches' in e) ? e.touches[0].clientX : e.clientX;
+    const y = ('touches' in e) ? e.touches[0].clientY : e.clientY;
+    targetX = (x / window.innerWidth - 0.5) * 4;
+    targetY = (y / window.innerHeight - 0.5) * 4;
+  }
+  window.addEventListener('mousemove', onPointer, { passive: true });
+  window.addEventListener('touchmove', onPointer, { passive: true });
 
   function animate() {
-    requestAnimationFrame(animate);
-
-    mouseX += (targetMouseX - mouseX) * 0.03;
-    mouseY += (targetMouseY - mouseY) * 0.03;
-
-    particles.rotation.y = mouseX * 0.03;
-    particles.rotation.x = -mouseY * 0.03;
-
-    const positions = particles.geometry.attributes.position.array;
-    for (let i = 0; i < particleCount; i++) {
-      positions[i * 3 + 1] += Math.sin(Date.now() * 0.0003 + i * 0.1) * 0.001;
+    frameId = requestAnimationFrame(animate);
+    mouseX += (targetX - mouseX) * 0.04;
+    mouseY += (targetY - mouseY) * 0.04;
+    if (particles) {
+      particles.rotation.y = mouseX * 0.015;
+      particles.rotation.x = -mouseY * 0.015;
+      const pos = particles.geometry.attributes.position.array;
+      const t = Date.now() * 0.0004;
+      for (let i = 0; i < MAX_PARTICLES; i++) {
+        pos[i * 3 + 1] += Math.sin(t + i * 0.12) * 0.002;
+      }
+      particles.geometry.attributes.position.needsUpdate = true;
     }
-    particles.geometry.attributes.position.needsUpdate = true;
-
+    scene.children.forEach(child => {
+      if (child.isGroup) {
+        child.children.forEach(mesh => {
+          mesh.rotation.x += mesh._rotSpeed.x;
+          mesh.rotation.y += mesh._rotSpeed.y;
+          mesh.position.y += Math.sin(Date.now() * 0.0007 + mesh._floatOffset) * 0.002;
+        });
+      }
+    });
     renderer.render(scene, camera);
   }
 
-  animate();
+  if (!isMobile) { init(); animate(); }
 
-  window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { if (frameId) cancelAnimationFrame(frameId); }
+    else if (!isMobile && scene) { animate(); }
   });
-})();
 
-// ===== INTERSECTION OBSERVER FOR FADE-UP =====
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      const nextPortrait = window.innerHeight > window.innerWidth;
+      if (nextPortrait !== isPortrait) { window.location.reload(); return; }
+      if (!isMobile && camera && renderer) {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      }
+    }, 200);
+  });
+})(); OBSERVER FOR FADE-UP =====
 const fadeObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
