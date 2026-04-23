@@ -29,7 +29,7 @@
 
     body {
       font-family: 'VT323', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 18px;
+      font-size: 20px;
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
@@ -61,7 +61,7 @@
       justify-content: space-between;
     }
     nav .logo {
-      font-size: 26px;
+      font-size: 28px;
       font-weight: 800;
       text-decoration: none;
       color: var(--red);
@@ -100,7 +100,7 @@
     /* ===== HERO ===== */
     .hero { padding-top: 160px; padding-bottom: 100px; }
     .hero h1 {
-      font-size: clamp(58px, 9vw, 96px);
+      font-size: clamp(64px, 10vw, 104px);
       font-weight: 800;
       letter-spacing: -0.03em;
       line-height: 1;
@@ -133,7 +133,7 @@
       display: inline-flex; align-items: center; gap: 8px;
       background: var(--accent); color: #fff;
       border: none; border-radius: 8px;
-      padding: 14px 28px; font-size: 13px; font-weight: 600;
+      padding: 16px 32px; font-size: 16px; font-weight: 700;
       transition: all 0.2s; cursor: pointer; text-decoration: none;
     }
     .btn-primary:hover { background: #ff8255; transform: translateY(-2px); }
@@ -142,7 +142,7 @@
       display: inline-flex; align-items: center; gap: 8px;
       background: transparent; color: var(--text);
       border: 1px solid var(--border); border-radius: 8px;
-      padding: 14px 28px; font-size: 13px; font-weight: 600;
+      padding: 16px 32px; font-size: 16px; font-weight: 600;
       transition: all 0.2s; cursor: pointer; text-decoration: none;
     }
     .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
@@ -217,7 +217,7 @@
       display: block;
     }
     .section-head h2 {
-      font-size: clamp(36px, 5vw, 52px);
+      font-size: clamp(40px, 6vw, 60px);
       font-weight: 700;
       letter-spacing: -0.02em;
       line-height: 1.1;
@@ -557,17 +557,18 @@
     }
 
     /* ===== FOOTER ===== */
-    footer { border-top: 1px solid var(--border); padding: 40px 0; position: relative; z-index: 10; }
-    footer .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; max-width: 1100px; margin: 0 auto; padding: 0 48px; }
+    footer { border-top: 1px solid var(--border); padding: 48px 0; position: relative; z-index: 10; }
+    footer .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; max-width: 1100px; margin: 0 auto; padding: 0 48px; }
     footer .footer-left { display: flex; align-items: center; gap: 20px; }
-    footer .footer-name { font-size: 18px; font-weight: 800; color: var(--accent); letter-spacing: -0.5px; }
-    footer .footer-tagline { font-size: 11px; color: var(--text); opacity: 0.6; }
-    footer .footer-links { display: flex; gap: 20px; align-items: center; }
-    footer .footer-links a { font-size: 11px; color: var(--text); text-decoration: none; transition: color 0.2s; }
+    footer .footer-name { font-size: 20px; font-weight: 800; color: var(--accent); letter-spacing: -0.5px; }
+    footer .footer-tagline { font-size: 13px; color: var(--text); opacity: 0.7; }
+    footer .footer-links { display: flex; gap: 16px; align-items: center; }
+    footer .footer-links a { font-size: 14px; color: var(--text); text-decoration: none; transition: color 0.2s; display: flex; align-items: center; gap: 6px; }
     footer .footer-links a:hover { color: var(--accent); }
-    footer .footer-cta { font-size: 11px; background: var(--accent); color: #000; font-weight: 600; padding: 8px 16px; border-radius: 4px; text-decoration: none; transition: all 0.2s; }
-    footer .footer-cta:hover { background: #fff; }
-    footer .footer-bottom { max-width: 1100px; margin: 20px auto 0; padding: 16px 48px 0; border-top: 1px solid var(--border); font-size: 10px; color: var(--text); opacity: 0.4; text-align: center; }
+    footer .footer-links a svg { width: 16px; height: 16px; fill: currentColor; }
+    footer .footer-cta { font-size: 14px; background: var(--accent); color: #000; font-weight: 700; padding: 12px 24px; border-radius: 6px; text-decoration: none; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+    footer .footer-cta:hover { background: #fff; transform: translateY(-2px); }
+    footer .footer-bottom { max-width: 1100px; margin: 32px auto 0; padding: 20px 48px 0; border-top: 1px solid var(--border); font-size: 12px; color: var(--text); opacity: 0.5; text-align: center; }
 
     /* ===== ANIMATIONS ===== */
     .fade-up {
@@ -658,15 +659,21 @@
       .arsenal-metrics .m { font-size: 11px; }
       .arsenal-metrics .m span { font-size: 14px; }
       .testi-card p { font-size: 14px; }
-      .footer-inner { padding: 0 16px; flex-direction: column; text-align: center; gap: 12px; }
-      .footer-links { justify-content: center; flex-wrap: wrap; }
+      .footer-inner { padding: 0 16px; flex-direction: column; text-align: center; gap: 16px; }
+      .footer-left { justify-content: center; }
+      .footer-links { justify-content: center; flex-wrap: wrap; gap: 12px; }
+      .footer-links a { font-size: 15px; }
+      .footer-cta { font-size: 15px; padding: 14px 20px; }
+      .footer-bottom { font-size: 11px; }
     }
     @media (max-width: 480px) {
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
       .metrics-strip { grid-template-columns: 1fr; }
       .logos-grid { grid-template-columns: repeat(2, 1fr); }
-      .pipe-stage p { font-size: 12px; }
-      .footer-name { font-size: 16px; }
+      .pipe-stage p { font-size: 13px; }
+      .footer-name { font-size: 18px; }
+      .footer-links a { font-size: 14px; }
+      .footer-links svg { width: 14px; height: 14px; }
     }
   </style>
 </head>
@@ -705,7 +712,7 @@
     </div>
 
     <div style="display:flex;gap:10px;" data-animate>
-      <a href="#contact" class="btn-primary">Hire Me -</a>
+      <a href="#contact" class="btn-primary">Hire Me</a>
       <a href="#work" class="btn-outline">View Work</a>
     </div>
 
@@ -874,96 +881,96 @@
 <section id="arsenal" style="background:var(--surface);position:relative;z-index:10;">
   <div class="container">
     <div class="section-head"><span class="section-num">03 / THE ARSENAL</span><h2>The Arsenal</h2>
-      <p>Six flagship systems. Each one eliminates manual work and compounds over time.</p>
+      <p>Six battle-tested systems. Each compounds over time and kills repetitive work.</p>
     </div>
     <div class="arsenal-list">
       <div class="arsenal-item fade-up stagger-1">
         <div class="arsenal-num">01</div>
         <div class="arsenal-body">
-          <h3>L3 7-Agent SEO Displacement Pipeline</h3>
-          <p>Full SEO stack displacement campaign engine on Clay with 7 AI agents. Signal routing from keywords, profile engagement, and social listening.</p>
-          <pre>Clay (A1-A7 agents) - n8n - Supabase - Slack - HubSpot
+          <h3>7-Agent SEO Displacement Engine</h3>
+          <p>Clay-powered campaign machine that finds gaps in competitor SEO and fills them. 7 AI agents work in sequence to research, write, and deploy at scale.</p>
+          <pre>Clay (A1-A7 agents) → n8n → Supabase → HubSpot
 
-Signals: SEMrush, Ahrefs, Moz, BrightEdge, Conductor</pre>
+Signal sources: SEMrush, Ahrefs, Moz, BrightEdge</pre>
           <div class="a-badges"><span class="tag accent">Clay</span><span class="tag accent">n8n</span><span class="tag">AI</span></div>
         </div>
         <div class="arsenal-metrics">
           <div class="m"><span>1.5%+</span>response rate</div>
-          <div class="m"><span>3 day</span>deployment</div>
+          <div class="m"><span>3 days</span>to deploy</div>
         </div>
       </div>
       <div class="arsenal-item fade-up stagger-2">
         <div class="arsenal-num">02</div>
         <div class="arsenal-body">
-          <h3>Bidirectional Clay-n8n Integration</h3>
-          <p>Real-time data sync between Clay and n8n via webhook architecture. Row-level updates, auto-push config, CRM enrichment pipeline.</p>
-          <pre>Clay HTTP API - n8n Webhook - Enrich - Respond
+          <h3>Clay-n8n Bidirectional Sync</h3>
+          <p>Data flows both ways in real-time. Clay enriches → n8n processes → CRM stays clean. No manual copy-paste. No stale data.</p>
+          <pre>Clay API → n8n Webhook → Enrich → Push to CRM
 
-Supports: Apollo, Clearbit, ZeroBounce</pre>
+Hooks: Apollo, Clearbit, ZeroBounce</pre>
           <div class="a-badges"><span class="tag accent">Clay</span><span class="tag">n8n</span></div>
         </div>
         <div class="arsenal-metrics">
-          <div class="m"><span>Real-time</span>sync</div>
-          <div class="m"><span>Row-level</span>updates</div>
+          <div class="m"><span>Real-time</span>data sync</div>
+          <div class="m"><span>Row-level</span>precision</div>
         </div>
       </div>
       <div class="arsenal-item fade-up stagger-3">
         <div class="arsenal-num">03</div>
         <div class="arsenal-body">
-          <h3>Instantly Auto-Reply Engine</h3>
-          <p>Intelligent auto-reply reading incoming Instantly threads, looking up campaign context, and generating contextual replies via Claude.</p>
-          <pre>Instantly webhook - Sheets lookup - Claude - Instantly API
+          <h3>Instantly Auto-Reply System</h3>
+          <p>Never miss a reply. Bot reads incoming threads, pulls campaign context, and fires back human-like responses while you sleep.</p>
+          <pre>Instantly → n8n webhook → Claude Haiku → Reply
 
-Knowledge base: campaign ID, offers, tone, reply examples</pre>
+Context: offers, tone, past exchanges</pre>
           <div class="a-badges"><span class="tag accent">Email</span><span class="tag">AI</span></div>
         </div>
         <div class="arsenal-metrics">
-          <div class="m"><span>Automated</span>threading</div>
-          <div class="m"><span>Contextual</span>replies</div>
+          <div class="m"><span>24/7</span>coverage</div>
+          <div class="m"><span>Instant</span>responses</div>
         </div>
       </div>
       <div class="arsenal-item fade-up stagger-4">
         <div class="arsenal-num">04</div>
         <div class="arsenal-body">
-          <h3>HubSpot Lead Routing and Scoring</h3>
-          <p>AI-powered lead scoring and routing system. Qualify - Score - Route to AE - Slack DM. Runs on OpenAI with conditional tier-based routing.</p>
-          <pre>HubSpot trigger - Enrich (HTTP) - AI Score (OpenAI) - Switch
+          <h3>HubSpot AI Lead Router</h3>
+          <p>Leads hit your CRM → AI scores them → Hot leads route to AE with Slack DM. Cold leads get nurture. No manual triaging.</p>
+          <pre>HubSpot trigger → AI scoring (OpenAI) → Route
 
-80+ = Hot - Create Deal + Slack DM</pre>
-          <div class="a-badges"><span class="tag accent">Clay</span><span class="tag accent">HubSpot</span></div>
+80+ score: Create Deal + ping AE on Slack</pre>
+          <div class="a-badges"><span class="tag accent">HubSpot</span><span class="tag accent">OpenAI</span></div>
         </div>
         <div class="arsenal-metrics">
-          <div class="m"><span>48h-9.6h</span>qualification</div>
-          <div class="m"><span>15h/wk</span>saved</div>
+          <div class="m"><span>48h → 9.6h</span>qualify</div>
+          <div class="m"><span>15h/week</span>saved</div>
         </div>
       </div>
       <div class="arsenal-item fade-up stagger-5">
         <div class="arsenal-num">05</div>
         <div class="arsenal-body">
-          <h3>Google Maps B2B Lead Pipeline</h3>
-          <p>Multi-stage pipeline: Apify Maps scraper - website contact extractor - DuckDuckGo enrichment - Claude Haiku extraction.</p>
-          <pre>Apify - Website scrape - DuckDuckGo - Claude Haiku - Sheets
+          <h3>Google Maps B2B Scraper</h3>
+          <p>Find any business on Maps → scrape owner, contacts, social → enrich with 36 fields → export to Sheets. $0.01 per lead.</p>
+          <pre>Apify Maps → Website scrape → DuckDuckGo → Claude Haiku
 
-36-field schema: business info, contacts, social, owner data</pre>
-          <div class="a-badges"><span class="tag accent">Lead Gen</span><span class="tag">AI</span></div>
+Output: 36 fields per lead, clean and structured</pre>
+          <div class="a-badges"><span class="tag accent">Apify</span><span class="tag">Claude Haiku</span></div>
         </div>
         <div class="arsenal-metrics">
-          <div class="m"><span>$0.01-0.02</span>per lead</div>
-          <div class="m"><span>36</span>data fields</div>
+          <div class="m"><span>$0.01</span>per lead</div>
+          <div class="m"><span>36 fields</span>enriched</div>
         </div>
       </div>
       <div class="arsenal-item fade-up stagger-6">
         <div class="arsenal-num">06</div>
         <div class="arsenal-body">
-          <h3>Self-Hosted n8n Elite Stack</h3>
-          <p>Production n8n at thexeme.com with Docker, PostgreSQL, queue mode, and 3 elite workflows. X-N8N-API-KEY header auth.</p>
+          <h3>Self-Hosted n8n Stack</h3>
+          <p>Full n8n instance at thexeme.com. Docker, PostgreSQL, Redis queue mode. Own your infrastructure. No per-execution limits.</p>
           <pre>Docker + PostgreSQL + Redis (queue mode)
 
-API: X-N8N-API-KEY header auth</pre>
+Auth: X-N8N-API-KEY header</pre>
           <div class="a-badges"><span class="tag accent">n8n</span><span class="tag">Self-Hosted</span></div>
         </div>
         <div class="arsenal-metrics">
-          <div class="m"><span>3</span>elite workflows</div>
+          <div class="m"><span>Unlimited</span>executions</div>
           <div class="m"><span>$55-140</span>infra/mo</div>
         </div>
       </div>
@@ -1112,9 +1119,18 @@ API: X-N8N-API-KEY header auth</pre>
     </div>
     <div class="footer-links">
       <a href="mailto:shaikhrasul02@gmail.com" class="footer-cta">Let's Work Together →</a>
-      <a href="https://linkedin.com/in/rasulshaikh" target="_blank">LinkedIn</a>
-      <a href="mailto:shaikhrasul02@gmail.com">Email</a>
-      <a href="https://bold.pro/my/iamrasulshaikh/399r" target="_blank">Bold</a>
+      <a href="https://linkedin.com/in/rasulshaikh" target="_blank">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+      <a href="mailto:shaikhrasul02@gmail.com">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
+        Email
+      </a>
+      <a href="https://bold.pro/my/iamrasulshaikh/399r" target="_blank">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0L1.604 6v12L12 24l10.396-6V6L12 0zm0 2.16l8.34 4.8v9.12L12 20.84l-8.34-4.8V6.96L12 2.16z"/></svg>
+        Bold
+      </a>
     </div>
   </div>
   <div class="footer-bottom">Built with precision. Shipped with care.</div>
