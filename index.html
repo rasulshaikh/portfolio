@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rasul Shaikh - AI GTM Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=VT323&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --surface2: #1a1a1a;
+      --border: #2a2a2a;
+      --text: #ffffff;
+      --text2: #ffffff;
+      --text3: #bbbbbb;
+      --accent: #FF6B35;
+      --accent-dim: rgba(255, 107, 53, 0.1);
+      --green: #22c55e;
+      --green-dim: rgba(34, 197, 94, 0.1);
+      --red: #ef4444;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'VT323', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 18px;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ===== BG CANVAS ===== */
+    #bg-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ===== NAV ===== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(10, 10, 10, 0.9);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 48px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    nav .logo {
+      font-size: 26px;
+      font-weight: 800;
+      text-decoration: none;
+      color: var(--red);
+      letter-spacing: -0.5px;
+    }
+    nav ul { display: flex; gap: 32px; list-style: none; }
+    nav ul li a {
+      font-size: 15px;
+      color: var(--accent);
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    nav ul li a:hover { color: #fff; }
+    .avail-pill {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 18px; letter-spacing: 1px;
+      background: var(--green-dim);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: var(--green); padding: 5px 14px; border-radius: 100px;
+    }
+    .avail-pill::before {
+      content:'';
+      width: 6px; height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+    /* ===== LAYOUT ===== */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 48px; }
+    section { padding: 100px 0; position: relative; z-index: 10; }
+    .divider { height: 1px; background: var(--border); }
+
+    /* ===== HERO ===== */
+    .hero { padding-top: 160px; padding-bottom: 100px; }
+    .hero h1 {
+      font-size: clamp(58px, 9vw, 96px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 24px;
+    }
+    .hero h1 span {
+      color: var(--accent);
+    }
+    .hero-sub {
+      font-size: 18px;
+      color: var(--text);
+      max-width: 580px;
+      line-height: 1.7;
+      margin-bottom: 36px;
+      font-weight: 400;
+    }
+    .hero-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 40px; }
+    .tag {
+      display: inline-flex; align-items: center;
+      font-size: 14px; font-weight: 500; padding: 8px 14px;
+      border-radius: 6px; border: 1px solid var(--border);
+      background: var(--surface); color: var(--text);
+      transition: all 0.2s;
+    }
+    .tag:hover { border-color: var(--accent); color: var(--accent); }
+    .tag.accent { background: var(--accent-dim); border-color: rgba(255, 107, 53, 0.3); color: var(--accent); }
+
+    /* ===== BUTTONS ===== */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent); color: #fff;
+      border: none; border-radius: 8px;
+      padding: 14px 28px; font-size: 13px; font-weight: 600;
+      transition: all 0.2s; cursor: pointer; text-decoration: none;
+    }
+    .btn-primary:hover { background: #ff8255; transform: translateY(-2px); }
+
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; color: var(--text);
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 14px 28px; font-size: 13px; font-weight: 600;
+      transition: all 0.2s; cursor: pointer; text-decoration: none;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ===== STATS ===== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--surface);
+    }
+    .stat {
+      padding: 24px 14px;
+      border-right: 1px solid var(--border);
+      text-align: center;
+    }
+    .stat:last-child { border-right: none; }
+    .stat .num {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      display: block;
+      color: var(--accent);
+    }
+    .stat .lbl {
+      font-size: 9px;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+      display: block;
+    }
+
+    /* ===== METRICS ===== */
+    .metrics-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .metric {
+      background: var(--surface);
+      padding: 36px 24px;
+      text-align: center;
+    }
+    .metric .big {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--accent);
+      display: block;
+    }
+    .metric .desc {
+      font-size: 13px;
+      color: var(--text);
+      margin-top: 8px;
+    }
+
+    /* ===== SECTION HEADINGS ===== */
+    .section-head { margin-bottom: 56px; }
+    .section-head .section-num {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+      display: block;
+    }
+    .section-head h2 {
+      font-size: clamp(36px, 5vw, 52px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .section-head p {
+      font-size: 15px;
+      color: var(--text);
+      max-width: 520px;
+    }
+
+    /* ===== CODEX ===== */
+    .codex-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .codex-item {
+      background: var(--surface);
+      padding: 32px 24px;
+      transition: all 0.2s;
+    }
+    .codex-item:hover { background: var(--surface2); }
+    .codex-item h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .codex-item p {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    /* ===== WORK ===== */
+    .work-grid { display: flex; flex-direction: column; gap: 3px; }
+    .work-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px 36px;
+      transition: all 0.2s;
+    }
+    .work-card:hover { border-color: rgba(255, 107, 53, 0.3); }
+    .work-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .work-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .work-card .role {
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 500;
+      margin-top: 4px;
+    }
+    .work-card .date {
+      font-size: 11px;
+      color: var(--text);
+      padding: 4px 10px;
+      background: var(--surface2);
+      border-radius: 4px;
+    }
+    .work-card > p {
+      font-size: 16px;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    .work-card ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .work-card ul li {
+      font-size: 16px;
+      color: var(--text);
+      padding-left: 16px;
+      position: relative;
+    }
+    .work-card ul li::before {
+      content: '-';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+    .work-card .stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+
+    /* ===== SKILLS ===== */
+    .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .skill-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      transition: all 0.2s;
+    }
+    .skill-card:hover { border-color: rgba(255, 107, 53, 0.3); transform: translateY(-2px); }
+    .skill-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+    .skill-card p { font-size: 16px; color: var(--text); line-height: 1.5; margin-bottom: 12px; }
+    .skill-card .cats { display: flex; flex-wrap: wrap; gap: 5px; }
+
+    /* ===== ARSENAL ===== */
+    .arsenal-list { display: flex; flex-direction: column; gap: 3px; }
+    .arsenal-item {
+      display: grid;
+      grid-template-columns: 56px 1fr auto;
+      align-items: start;
+      gap: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 32px;
+      transition: all 0.2s;
+    }
+    .arsenal-item:hover { border-color: rgba(255, 107, 53, 0.2); }
+    .arsenal-num {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .arsenal-body h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+    .arsenal-body > p { font-size: 16px; color: var(--text); margin-bottom: 12px; }
+    .arsenal-body pre {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: auto;
+      margin-bottom: 12px;
+    }
+    .arsenal-body .a-badges { display: flex; gap: 5px; flex-wrap: wrap; }
+    .arsenal-metrics { display: flex; gap: 24px; align-items: center; }
+    .arsenal-metrics .m { font-size: 11px; color: var(--text); text-align: center; }
+    .arsenal-metrics .m span { display: block; font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+
+    /* ===== CAMPAIGNS ===== */
+    .camp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .camp-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      transition: all 0.2s;
+    }
+    .camp-card:hover { border-color: rgba(255, 107, 53, 0.3); transform: translateY(-2px); }
+    .camp-card .ci { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 10px; display: block; }
+    .camp-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+    .camp-card > p { font-size: 15px; color: var(--text); margin-bottom: 12px; line-height: 1.5; }
+    .camp-card .cs { font-size: 15px; color: var(--text); margin-bottom: 3px; }
+    .camp-card .cs b { color: var(--text); font-weight: 600; }
+
+    /* ===== PIPELINE ===== */
+    .pipeline-wrap { overflow-x: auto; padding-bottom: 8px; }
+    .pipeline { display: flex; gap: 8px; min-width: 900px; }
+    .pipe-stage {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 14px;
+      position: relative;
+      transition: all 0.2s;
+    }
+    .pipe-stage:hover { border-color: rgba(255, 107, 53, 0.3); }
+    .pipe-stage:not(:last-child)::after {
+      content: '→';
+      position: absolute;
+      right: -16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--accent);
+      font-size: 16px;
+      z-index: 2;
+      background: var(--bg);
+      width: 16px;
+      text-align: center;
+    }
+    .pipe-stage .pn { font-size: 18px; font-weight: 700; color: var(--accent); margin-bottom: 4px; display: block; }
+    .pipe-stage h4 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; color: var(--text); }
+    .pipe-stage p { font-size: 14px; color: var(--text); line-height: 1.4; }
+
+    /* ===== TESTIMONIALS ===== */
+    .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .testi-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .testi-card .quote-icon { font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.2; color: var(--accent); }
+    .testi-card p { font-size: 16px; color: var(--text); line-height: 1.6; margin-bottom: 16px; font-style: italic; }
+    .testi-card .attr { display: flex; align-items: center; gap: 10px; }
+    .testi-card .attr-avatar {
+      width: 36px; height: 36px;
+      background: var(--accent-dim);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700;
+      color: var(--accent);
+    }
+    .testi-card .attr-name { font-size: 13px; font-weight: 600; }
+    .testi-card .attr-role { font-size: 11px; color: var(--text); }
+
+    /* ===== COMPARE ===== */
+    .compare-table {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--surface);
+    }
+    .compare-row {
+      display: grid;
+      grid-template-columns: 1fr 140px 140px;
+      border-bottom: 1px solid var(--border);
+    }
+    .compare-row:last-child { border-bottom: none; }
+    .compare-row .cell { padding: 14px 20px; font-size: 15px; color: var(--text); }
+    .compare-row .cell:first-child { color: var(--text); font-weight: 500; }
+    .compare-row .cell .check { color: var(--accent); font-weight: 700; font-size: 18px; }
+    .compare-row .cell .cross { color: var(--border); font-weight: 700; font-size: 18px; }
+    .compare-header { background: var(--surface2); }
+    .compare-header .cell { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text); }
+
+    /* ===== LOGOS ===== */
+    .logos-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .logo-item {
+      background: var(--surface);
+      padding: 22px 14px;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .logo-item:hover { background: var(--surface2); }
+    .logo-item .logo-name { font-size: 15px; font-weight: 600; color: var(--text); }
+    .logo-item .logo-cat { font-size: 12px; color: var(--text); margin-top: 2px; }
+
+    /* ===== FAQ ===== */
+    .faq-list { display: flex; flex-direction: column; gap: 3px; }
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .faq-item:hover { border-color: rgba(255, 107, 53, 0.2); }
+    .faq-item.open { border-color: rgba(255, 107, 53, 0.3); }
+    .faq-q {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 18px 22px;
+      color: var(--text);
+      font-size: 17px;
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: inherit;
+    }
+    .faq-q .faq-icon { font-size: 18px; color: var(--accent); transition: transform 0.2s; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.3s; }
+    .faq-item.open .faq-a { max-height: 200px; }
+    .faq-a-inner { padding: 0 22px 18px; font-size: 15px; color: var(--text); line-height: 1.6; }
+
+    /* ===== CONTACT ===== */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+    .contact-item { display: flex; align-items: center; gap: 10px; font-size: 16px; color: var(--text); margin-bottom: 14px; }
+    .contact-form { display: flex; flex-direction: column; gap: 10px; }
+    .contact-form input, .contact-form textarea {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      color: var(--text);
+      font-size: 16px;
+      font-family: inherit;
+      width: 100%;
+      transition: all 0.2s;
+    }
+    .contact-form input:focus, .contact-form textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .contact-form textarea { resize: vertical; min-height: 110px; }
+    .contact-form button {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 14px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      align-self: flex-start;
+      transition: all 0.2s;
+    }
+    .contact-form button:hover { background: #ff8255; }
+    .avail-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--green-dim);
+      border: 1px solid rgba(34, 197, 94, 0.2);
+      border-radius: 8px;
+      padding: 12px 18px;
+      font-size: 13px;
+      color: var(--green);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .avail-badge::before {
+      content:'';
+      width: 7px; height: 7px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    /* ===== FOOTER ===== */
+    footer { border-top: 1px solid var(--border); padding: 40px 0; position: relative; z-index: 10; }
+    footer .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; max-width: 1100px; margin: 0 auto; padding: 0 48px; }
+    footer .footer-left { display: flex; align-items: center; gap: 20px; }
+    footer .footer-name { font-size: 18px; font-weight: 800; color: var(--accent); letter-spacing: -0.5px; }
+    footer .footer-tagline { font-size: 11px; color: var(--text); opacity: 0.6; }
+    footer .footer-links { display: flex; gap: 20px; align-items: center; }
+    footer .footer-links a { font-size: 11px; color: var(--text); text-decoration: none; transition: color 0.2s; }
+    footer .footer-links a:hover { color: var(--accent); }
+    footer .footer-cta { font-size: 11px; background: var(--accent); color: #000; font-weight: 600; padding: 8px 16px; border-radius: 4px; text-decoration: none; transition: all 0.2s; }
+    footer .footer-cta:hover { background: #fff; }
+    footer .footer-bottom { max-width: 1100px; margin: 20px auto 0; padding: 16px 48px 0; border-top: 1px solid var(--border); font-size: 10px; color: var(--text); opacity: 0.4; text-align: center; }
+
+    /* ===== ANIMATIONS ===== */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-up.visible { transition-delay: calc(var(--i, 0) * 0.08s); }
+    .stagger-1 { --i: 1; }
+    .stagger-2 { --i: 2; }
+    .stagger-3 { --i: 3; }
+    .stagger-4 { --i: 4; }
+    .stagger-5 { --i: 5; }
+    .stagger-6 { --i: 6; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      nav { padding: 0 28px; }
+      nav ul { display: none; }
+      .container { padding: 0 28px; }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .camp-grid { grid-template-columns: repeat(2, 1fr); }
+      .logos-grid { grid-template-columns: repeat(3, 1fr); }
+      .arsenal-item { grid-template-columns: 48px 1fr; }
+      .arsenal-metrics { display: none; }
+    }
+    @media (max-width: 768px) {
+      section { padding: 72px 0; }
+      nav { padding: 0 18px; }
+      .container { padding: 0 18px; }
+      .hero { padding-top: 120px; padding-bottom: 72px; }
+      .stats-grid { grid-template-columns: repeat(4, 1fr); }
+      .metrics-strip { grid-template-columns: repeat(2, 1fr); }
+      .skills-grid { grid-template-columns: 1fr; }
+      .camp-grid { grid-template-columns: 1fr; }
+      .testi-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .logos-grid { grid-template-columns: repeat(2, 1fr); }
+      .work-card { padding: 24px; }
+      .compare-row { grid-template-columns: 1fr 80px 80px; }
+    }
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .metrics-strip { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- THREE.JS BACKGROUND -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">Rasul</a>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#arsenal">Arsenal</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="avail-pill"><span>Available</span></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="about">
+  <div class="container">
+    <h1 data-animate>I build revenue-first<br><span>GTM automations</span></h1>
+    <p class="hero-sub" data-animate>I design and deploy AI-powered outbound systems that turn outreach into pipeline. From Clay workflows and n8n orchestration to AI-Native agentic outbound sequences and signal-based ABM.</p>
+
+    <div class="hero-badges" data-animate>
+      <span class="tag accent">Clay Expert</span>
+      <span class="tag accent">n8n Orchestration</span>
+      <span class="tag accent">7-Agent Pipeline</span>
+      <span class="tag">Claude Code</span>
+      <span class="tag">Multi-Channel ABM</span>
+      <span class="tag">Lead Scoring</span>
+      <span class="tag">HubSpot CRM</span>
+    </div>
+
+    <div style="display:flex;gap:10px;" data-animate>
+      <a href="#contact" class="btn-primary">Hire Me -</a>
+      <a href="#work" class="btn-outline">View Work</a>
+    </div>
+
+    <div class="stats-grid" style="margin-top:48px;" data-animate>
+      <div class="stat"><span class="num" data-count="550" data-suffix="K+">$0</span><span class="lbl">Revenue Generated</span></div>
+      <div class="stat"><span class="num" data-count="3.5" data-suffix="M+">$0</span><span class="lbl">Pipeline Built</span></div>
+      <div class="stat"><span class="num" data-count="40" data-suffix="%">0%</span><span class="lbl">Efficiency Gains</span></div>
+      <div class="stat"><span class="num" data-count="27" data-suffix="%">0%</span><span class="lbl">SQL Conversion</span></div>
+      <div class="stat"><span class="num" data-count="180" data-suffix="K">$0</span><span class="lbl">ARR in 6 Mo</span></div>
+      <div class="stat"><span class="num" data-count="300" data-suffix="%">0%</span><span class="lbl">SDR Productivity</span></div>
+      <div class="stat"><span class="num" data-count="95" data-suffix="%+">0%</span><span class="lbl">Email Deliverability</span></div>
+      <div class="stat"><span class="num" data-count="75" data-suffix="+">0</span><span class="lbl">Workflows Built</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- METRICS -->
+<section style="padding:64px 0;position:relative;z-index:10;">
+  <div class="container">
+    <div class="metrics-strip">
+      <div class="metric"><span class="big" data-count="250" data-suffix="+">0</span><span class="desc">Sending domains at 95%+ deliverability</span></div>
+      <div class="metric"><span class="big">12-20</span><span class="desc">SQLs per campaign - 18-39% conversion</span></div>
+      <div class="metric"><span class="big">48h-9.6h</span><span class="desc">Lead qualification via AI scoring</span></div>
+      <div class="metric"><span class="big" data-count="400" data-suffix="+">0</span><span class="desc">Manual hours eliminated by automation</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WORK -->
+<section id="work" style="position:relative;z-index:10;">
+  <div class="container">
+    <div class="section-head"><span class="section-num">01 / WHERE I'VE BUILT</span><h2>Where I've built</h2>
+      <p>From early-stage startups to $12M revenue companies.</p>
+    </div>
+    <div class="work-grid">
+      <div class="work-card fade-up stagger-1">
+        <div class="work-card-header">
+          <div><h3>Omnibound AI</h3><div class="role">AI GTM Engineer</div></div>
+          <span class="date">Oct 2025 - Present</span>
+        </div>
+        <p>AI Search Marketing Platform. End-to-end signal-led automation with Claude Code, n8n, Clay, Supabase.</p>
+        <ul>
+          <li>GTM infrastructure to signal-led automation via Trigify/PhantomBuster</li>
+          <li>Campaign deployment from 2 weeks to under 3 days</li>
+          <li>1.5%+ positive response rates using keyword/profile engagement and social listening</li>
+          <li>Running L3 7-agent pipeline for SEO Stack Displacement targeting SEMrush/Ahrefs/Moz users</li>
+        </ul>
+        <div class="stack">
+          <span class="tag accent">Claude Code</span><span class="tag accent">Clay</span><span class="tag accent">n8n</span>
+          <span class="tag">Supabase</span><span class="tag">HubSpot</span><span class="tag">Trigify</span>
+        </div>
+      </div>
+      <div class="work-card fade-up stagger-2">
+        <div class="work-card-header">
+          <div><h3>RemoteState</h3><div class="role">AI GTM Engineer - Founder's Office</div></div>
+          <span class="date">Apr 2023 - Jun 2025</span>
+        </div>
+        <p>$12.2M revenue IT services company. Built the entire outbound engine from scratch.</p>
+        <ul>
+          <li>AI-powered GTM engine - 40% pipeline efficiency gain, $180K+ ARR growth in 6 months</li>
+          <li>Clay + Smartlead + CloudTalk + n8n stack managing 250+ sending domains with 95%+ deliverability</li>
+          <li>Lead scoring with OpenAI APIs - qualification time from 48h to 9.6h (80% improvement)</li>
+          <li>Trigger-based SQL workflows - 12-20 SQLs per campaign, 18-39% conversion rate</li>
+          <li>Scaled SDR team from 1 to 4 reps - 300% productivity increase</li>
+          <li>Real-time CRM sync and webhooks - eliminated 15h/week manual data entry</li>
+        </ul>
+        <div class="stack">
+          <span class="tag accent">Clay</span><span class="tag accent">Smartlead</span><span class="tag accent">n8n</span>
+          <span class="tag">OpenAI</span><span class="tag">HubSpot</span>
+        </div>
+      </div>
+      <div class="work-card fade-up stagger-3">
+        <div class="work-card-header">
+          <div><h3>FalconWise Tech</h3><div class="role">Head of Growth (Contract)</div></div>
+          <span class="date">Dec 2022 - Apr 2023</span>
+        </div>
+        <p>Early-stage cybersecurity company. Zero outbound pipeline - built the entire motion from scratch across MENA.</p>
+        <ul>
+          <li>Automated ABM engine - 10+ SQLs/month, 30% engagement rate, Middle East market presence</li>
+          <li>Multi-channel ABM campaigns targeting enterprise cybersecurity decision-makers across MENA</li>
+          <li>Apollo + Persana + GPT workflows for personalized outreach at scale</li>
+          <li>Lead enrichment combining 5 data sources - 45% improvement in targeting accuracy</li>
+          <li>Partnership channel with 3 regional vendors - 25% of pipeline from partners</li>
+        </ul>
+        <div class="stack">
+          <span class="tag accent">Apollo</span><span class="tag">Persana</span><span class="tag">GPT</span>
+          <span class="tag">ABM</span><span class="tag">LinkedIn</span>
+        </div>
+      </div>
+      <div class="work-card fade-up stagger-4">
+        <div class="work-card-header">
+          <div><h3>CareerLabs Tech</h3><div class="role">Senior BDR</div></div>
+          <span class="date">Jun 2022 - Dec 2022</span>
+        </div>
+        <p>EdTech scale-up ($2.2M funding). Rebuilt the entire outbound motion.</p>
+        <ul>
+          <li>Rebuilt outbound automation with Reply + HubSpot - SQL conversion from 16% to 27%</li>
+          <li>Automated nurture sequences - response time from 4h to 2.4h average</li>
+          <li>50+ remote product demos with 65% show-up rate through automated reminders</li>
+          <li>Negotiated $100K+ in course enrollments - 25% improvement in client retention</li>
+        </ul>
+        <div class="stack">
+          <span class="tag accent">Reply.io</span><span class="tag accent">HubSpot</span><span class="tag">Sales Automation</span>
+        </div>
+      </div>
+      <div class="work-card fade-up stagger-5">
+        <div class="work-card-header">
+          <div><h3>Skill-Lync</h3><div class="role">Inside Sales Specialist</div></div>
+          <span class="date">Mar 2022 - Jun 2022</span>
+        </div>
+        <p>Engineering EdTech ($40M ARR). Built lead scoring and automated conference outreach.</p>
+        <ul>
+          <li>Lead scoring system with HubSpot + custom APIs - 50% reduction in research time</li>
+          <li>200+ leads generated through automated conference outreach campaigns</li>
+          <li>Sales process documentation - 30% reduction in new hire ramp time</li>
+        </ul>
+        <div class="stack">
+          <span class="tag accent">HubSpot</span><span class="tag">Custom APIs</span><span class="tag">Lead Scoring</span>
+        </div>
+      </div>
+      <div class="work-card fade-up stagger-6">
+        <div class="work-card-header">
+          <div><h3>Department of Posts India</h3><div class="role">Growth Manager</div></div>
+          <span class="date">Mar 2020 - Mar 2021</span>
+        </div>
+        <p>World's largest postal network (165K+ offices) under Ministry of Communications.</p>
+        <ul>
+          <li>Targeted campaigns adding 1,500+ new accounts - 20% branch efficiency gain</li>
+          <li>Process automation - 30% service delivery improvement</li>
+          <li>Customer onboarding system - setup time from 5 days to 2 days</li>
+        </ul>
+        <div class="stack">
+          <span class="tag">Government</span><span class="tag">Operations</span><span class="tag">Automation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<section id="skills" style="position:relative;z-index:10;">
+  <div class="container">
+    <div class="section-head"><span class="section-num">02 / TOOLCHAIN</span><h2>What I work with</h2>
+      <p>The full GTM stack across four roles: SDR, GTM Engineer, RevOps, and GTM Strategist/AE.</p>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card fade-up stagger-1"><h3>Clay Operations</h3><p>Full Clay mastery: enrichment waterfalls, lead scoring, Clayscript formulas, conditional runs, credit optimization.</p><div class="cats"><span class="tag accent">Email Waterfall</span><span class="tag accent">Lead Scoring</span><span class="tag accent">Conditional Logic</span></div></div>
+      <div class="skill-card fade-up stagger-2"><h3>n8n Workflow Design</h3><p>Production n8n architectures: webhook triggers, sub-workflows, CRM automations, Slack Block Kit, queue mode scaling.</p><div class="cats"><span class="tag accent">Webhook Triggers</span><span class="tag accent">CRM Sync</span><span class="tag accent">Queue Mode</span></div></div>
+      <div class="skill-card fade-up stagger-3"><h3>Email Automation</h3><p>Instantly, Smartlead, and multi-agent sequences. A/B testing, auto-reply engines, deliverability optimization.</p><div class="cats"><span class="tag accent">Instantly</span><span class="tag accent">Smartlead</span><span class="tag accent">Auto-Reply</span></div></div>
+      <div class="skill-card fade-up stagger-4"><h3>AI Agent Pipelines</h3><p>7-agent Clay pipeline (A1-A7) for SEO displacement campaigns. Role Scope Mapper - SEO Intel - Gap Layer.</p><div class="cats"><span class="tag accent">A1-A7 Agents</span><span class="tag accent">Signal Routing</span><span class="tag">Claude Code</span></div></div>
+      <div class="skill-card fade-up stagger-5"><h3>Intent Signal Detection</h3><p>Signal-based outreach using RB2B, Trigify, CommonRoom, Bombora. Triggers: job changes, funding rounds.</p><div class="cats"><span class="tag accent">RB2B</span><span class="tag accent">Trigify</span><span class="tag accent">Bombora</span></div></div>
+      <div class="skill-card fade-up stagger-6"><h3>Multi-Channel Outreach</h3><p>LinkedIn via HeyReach and PhantomBuster. Email via Smartlead and Instantly. Voice via CloudTalk.</p><div class="cats"><span class="tag accent">HeyReach</span><span class="tag accent">PhantomBuster</span><span class="tag accent">CloudTalk</span></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ARSENAL -->
+<section id="arsenal" style="background:var(--surface);position:relative;z-index:10;">
+  <div class="container">
+    <div class="section-head"><span class="section-num">03 / THE ARSENAL</span><h2>The Arsenal</h2>
+      <p>Six flagship systems. Each one eliminates manual work and compounds over time.</p>
+    </div>
+    <div class="arsenal-list">
+      <div class="arsenal-item fade-up stagger-1">
+        <div class="arsenal-num">01</div>
+        <div class="arsenal-body">
+          <h3>L3 7-Agent SEO Displacement Pipeline</h3>
+          <p>Full SEO stack displacement campaign engine on Clay with 7 AI agents. Signal routing from keywords, profile engagement, and social listening.</p>
+          <pre>Clay (A1-A7 agents) - n8n - Supabase - Slack - HubSpot
+
+Signals: SEMrush, Ahrefs, Moz, BrightEdge, Conductor</pre>
+          <div class="a-badges"><span class="tag accent">Clay</span><span class="tag accent">n8n</span><span class="tag">AI</span></div>
+        </div>
+        <div class="arsenal-metrics">
+          <div class="m"><span>1.5%+</span>response rate</div>
+          <div class="m"><span>3 day</span>deployment</div>
+        </div>
+      </div>
+      <div class="arsenal-item fade-up stagger-2">
+        <div class="arsenal-num">02</div>
+        <div class="arsenal-body">
+          <h3>Bidirectional Clay-n8n Integration</h3>
+          <p>Real-time data sync between Clay and n8n via webhook architecture. Row-level updates, auto-push config, CRM enrichment pipeline.</p>
+          <pre>Clay HTTP API - n8n Webhook - Enrich - Respond
+
+Supports: Apollo, Clearbit, ZeroBounce</pre>
+          <div class="a-badges"><span class="tag accent">Clay</span><span class="tag">n8n</span></div>
+        </div>
+        <div class="arsenal-metrics">
+          <div class="m"><span>Real-time</span>sync</div>
+          <div class="m"><span>Row-level</span>updates</div>
+        </div>
+      </div>
+      <div class="arsenal-item fade-up stagger-3">
+        <div class="arsenal-num">03</div>
+        <div class="arsenal-body">
+          <h3>Instantly Auto-Reply Engine</h3>
+          <p>Intelligent auto-reply reading incoming Instantly threads, looking up campaign context, and generating contextual replies via Claude.</p>
+          <pre>Instantly webhook - Sheets lookup - Claude - Instantly API
+
+Knowledge base: campaign ID, offers, tone, reply examples</pre>
+          <div class="a-badges"><span class="tag accent">Email</span><span class="tag">AI</span></div>
+        </div>
+        <div class="arsenal-metrics">
+          <div class="m"><span>Automated</span>threading</div>
+          <div class="m"><span>Contextual</span>replies</div>
+        </div>
+      </div>
+      <div class="arsenal-item fade-up stagger-4">
+        <div class="arsenal-num">04</div>
+        <div class="arsenal-body">
+          <h3>HubSpot Lead Routing and Scoring</h3>
+          <p>AI-powered lead scoring and routing system. Qualify - Score - Route to AE - Slack DM. Runs on OpenAI with conditional tier-based routing.</p>
+          <pre>HubSpot trigger - Enrich (HTTP) - AI Score (OpenAI) - Switch
+
+80+ = Hot - Create Deal + Slack DM</pre>
+          <div class="a-badges"><span class="tag accent">Clay</span><span class="tag accent">HubSpot</span></div>
+        </div>
+        <div class="arsenal-metrics">
+          <div class="m"><span>48h-9.6h</span>qualification</div>
+          <div class="m"><span>15h/wk</span>saved</div>
+        </div>
+      </div>
+      <div class="arsenal-item fade-up stagger-5">
+        <div class="arsenal-num">05</div>
+        <div class="arsenal-body">
+          <h3>Google Maps B2B Lead Pipeline</h3>
+          <p>Multi-stage pipeline: Apify Maps scraper - website contact extractor - DuckDuckGo enrichment - Claude Haiku extraction.</p>
+          <pre>Apify - Website scrape - DuckDuckGo - Claude Haiku - Sheets
+
+36-field schema: business info, contacts, social, owner data</pre>
+          <div class="a-badges"><span class="tag accent">Lead Gen</span><span class="tag">AI</span></div>
+        </div>
+        <div class="arsenal-metrics">
+          <div class="m"><span>$0.01-0.02</span>per lead</div>
+          <div class="m"><span>36</span>data fields</div>
+        </div>
+      </div>
+      <div class="arsenal-item fade-up stagger-6">
+        <div class="arsenal-num">06</div>
+        <div class="arsenal-body">
+          <h3>Self-Hosted n8n Elite Stack</h3>
+          <p>Production n8n at thexeme.com with Docker, PostgreSQL, queue mode, and 3 elite workflows. X-N8N-API-KEY header auth.</p>
+          <pre>Docker + PostgreSQL + Redis (queue mode)
+
+API: X-N8N-API-KEY header auth</pre>
+          <div class="a-badges"><span class="tag accent">n8n</span><span class="tag">Self-Hosted</span></div>
+        </div>
+        <div class="arsenal-metrics">
+          <div class="m"><span>3</span>elite workflows</div>
+          <div class="m"><span>$55-140</span>infra/mo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CAMPAIGNS -->
+<section id="campaigns" style="position:relative;z-index:10;">
+  <div class="container">
+    <div class="section-head"><span class="section-num">04 / CAMPAIGNS</span><h2>What I've shipped</h2>
+      <p>Campaigns across multiple channels, tools, and geographies.</p>
+    </div>
+    <div class="camp-grid">
+      <div class="camp-card fade-up stagger-1"><span class="ci">Email Outbound</span><h3>SEO Stack Displacement</h3><p>Signal-based cold email targeting SEMrush/Ahrefs/Moz users. Role-branched emails.</p><div class="cs"><b>1.5%+</b> positive response rate</div><div class="cs"><b>4-email</b> cadence (Day 0, 3, 7, 12)</div><div class="cs"><b>3 days</b> from brief to deployed</div></div>
+      <div class="camp-card fade-up stagger-2"><span class="ci">LinkedIn ABM</span><h3>Middle East Cybersecurity ABM</h3><p>Multi-channel ABM targeting enterprise cybersecurity decision-makers across MENA.</p><div class="cs"><b>10+ SQLs</b> per month</div><div class="cs"><b>30%</b> engagement rate</div><div class="cs"><b>25%</b> pipeline from partners</div></div>
+      <div class="camp-card fade-up stagger-3"><span class="ci">AI-Powered SDR</span><h3>RemoteState Outbound Engine</h3><p>Full GTM engine rebuild with Clay + Smartlead + CloudTalk + n8n.</p><div class="cs"><b>12-20 SQLs</b> per campaign</div><div class="cs"><b>18-39%</b> conversion rate</div><div class="cs"><b>95%+</b> deliverability</div></div>
+      <div class="camp-card fade-up stagger-4"><span class="ci">EdTech Outbound</span><h3>CareerLabs SQL Conversion</h3><p>Rebuilt outbound automation using Reply + HubSpot.</p><div class="cs"><b>16%-27%</b> SQL conversion</div><div class="cs"><b>4h-2.4h</b> avg response time</div><div class="cs"><b>65%</b> demo show-up rate</div></div>
+      <div class="camp-card fade-up stagger-5"><span class="ci">Local Lead Gen</span><h3>Google Maps B2B Pipeline</h3><p>Automated lead generation from Google Maps with deep website enrichment.</p><div class="cs"><b>36 fields</b> per lead</div><div class="cs"><b>$0.01-0.02</b> per lead cost</div><div class="cs"><b>5 parallel</b> workers</div></div>
+      <div class="camp-card fade-up stagger-6"><span class="ci">Multi-Agent Email</span><h3>Signal-Based Auto-Reply</h3><p>Intelligent auto-reply reading incoming Instantly threads, generating Claude responses.</p><div class="cs"><b>Automated</b> thread response</div><div class="cs"><b>Campaign-specific</b> knowledge base</div><div class="cs"><b>Contextual</b> replies</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PIPELINE -->
+<section style="background:var(--surface);position:relative;z-index:10;">
+  <div class="container">
+    <div class="section-head"><span class="section-num">05 / PIPELINE</span><h2>How I run campaigns</h2>
+      <p>Signal detection - role classification - gap analysis - strategic layering - personalized outreach.</p>
+    </div>
+    <div class="pipeline-wrap">
+      <div class="pipeline">
+        <div class="pipe-stage fade-up stagger-1"><span class="pn">A1</span><h4>Role Scope Mapper</h4><p>Maps role/scope, classifies Group 1 vs Group 2. Role determines consequence framing.</p></div>
+        <div class="pipe-stage fade-up stagger-2"><span class="pn">A2</span><h4>SEO Intel Engine</h4><p>Analyzes SEO dependency, content footprint, AI search vulnerability.</p></div>
+        <div class="pipe-stage fade-up stagger-3"><span class="pn">A3</span><h4>Messaging Alignment</h4><p>Assesses keyword-optimized vs buyer-question-led content. Identifies messaging gaps.</p></div>
+        <div class="pipe-stage fade-up stagger-4"><span class="pn">A4</span><h4>Role-Signal Connector</h4><p>One sentence connecting the specific role to their SEO-vs-AI gap.</p></div>
+        <div class="pipe-stage fade-up stagger-5"><span class="pn">A5</span><h4>AI Search Gap Layer</h4><p>Outputs: brand_cited, competitor_cited, content_gap, seo_to_ai_gap.</p></div>
+        <div class="pipe-stage fade-up stagger-6"><span class="pn">A6</span><h4>Strategic Layers Engine</h4><p>5 strategic layers: direction, buyer_clarity, narrative_pressure.</p></div>
+        <div class="pipe-stage fade-up stagger-1"><span class="pn">A7</span><h4>Email Generator</h4><p>Mode A (S2): Full campaign email. Mode B: 85-95 word concise email.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TESTIMONIALS -->
+<section style="position:relative;z-index:10;">
+  <div class="container">
+    <div class="section-head"><span class="section-num">06 / TESTIMONIALS</span><h2>What people say</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card fade-up stagger-1"><span class="quote-icon">"</span><p>Rasul built our entire outbound engine from scratch in 6 weeks. $180K ARR growth, 40% pipeline efficiency gain. The Clay + n8n stack he architected still runs today.</p><div class="attr"><div class="attr-avatar">RS</div><div><div class="attr-name">RemoteState Founder</div><div class="attr-role">IT Services - $12M ARR</div></div></div></div>
+      <div class="testi-card fade-up stagger-2"><span class="quote-icon">"</span><p>The 7-agent pipeline he built for our SEO displacement campaign hit 1.5% response rates in the first week. Campaign from brief to deployed in 3 days.</p><div class="attr"><div class="attr-avatar">AB</div><div><div class="attr-name">Omnibound AI</div><div class="attr-role">AI Search Marketing Platform</div></div></div></div>
+      <div class="testi-card fade-up stagger-3"><span class="quote-icon">"</span><p>Zero outbound pipeline before Rasul. 10 SQLs/month after. The multi-channel ABM setup targeting MENA cybersecurity buyers was next-level.</p><div class="attr"><div class="attr-avatar">FK</div><div><div class="attr-name">FalconWise Tech</div><div class="attr-role">Cybersecurity - Dubai</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- COMPARE -->
+<section style="background:var(--surface);position:relative;z-index:10;">
+  <div class="container">
+    <div class="section-head"><span class="section-num">07 / COMPARE</span><h2>Me vs. a typical GTM hire</h2>
+    </div>
+    <div class="compare-table">
+      <div class="compare-row compare-header">
+        <div class="cell">Capability</div>
+        <div class="cell" style="text-align:center;color:var(--accent);">Rasul</div>
+        <div class="cell" style="text-align:center;color:var(--text);">Typical</div>
+      </div>
+      <div class="compare-row"><div class="cell">Builds Clay workflows from scratch</div><div class="cell" style="text-align:center;"><span class="check">✓</span></div><div class="cell" style="text-align:center;"><span class="cross">✗</span></div></div>
+      <div class="compare-row"><div class="cell">Self-hosts n8n with queue mode</div><div class="cell" style="text-align:center;"><span class="check">✓</span></div><div class="cell" style="text-align:center;"><span class="cross">✗</span></div></div>
+      <div class="compare-row"><div class="cell">Runs 7-agent AI email pipeline</div><div class="cell" style="text-align:center;"><span class="check">✓</span></div><div class="cell" style="text-align:center;"><span class="cross">✗</span></div></div>
+      <div class="compare-row"><div class="cell">Owns full stack (SDR + GTM + RevOps)</div><div class="cell" style="text-align:center;"><span class="check">✓</span></div><div class="cell" style="text-align:center;"><span class="cross">✗</span></div></div>
+      <div class="compare-row"><div class="cell">Ship campaigns in 3 days</div><div class="cell" style="text-align:center;"><span class="check">✓</span></div><div class="cell" style="text-align:center;"><span class="cross">✗</span></div></div>
+      <div class="compare-row"><div class="cell">Writes Claude Code agents</div><div class="cell" style="text-align:center;"><span class="check">✓</span></div><div class="cell" style="text-align:center;"><span class="cross">✗</span></div></div>
+      <div class="compare-row"><div class="cell">Manages 250+ sending domains</div><div class="cell" style="text-align:center;"><span class="check">✓</span></div><div class="cell" style="text-align:center;"><span class="cross">✗</span></div></div>
+      <div class="compare-row"><div class="cell">Generated $550K+ revenue</div><div class="cell" style="text-align:center;"><span class="check">✓</span></div><div class="cell" style="text-align:center;"><span class="cross">✗</span></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- LOGOS -->
+<section style="position:relative;z-index:10;">
+  <div class="container">
+    <div class="section-head"><span class="section-num">08 / TOOLS</span><h2>Tools I work with</h2>
+    </div>
+    <div class="logos-grid">
+      <div class="logo-item fade-up stagger-1"><div class="logo-name">Clay</div><div class="logo-cat">Enrichment</div></div>
+      <div class="logo-item fade-up stagger-2"><div class="logo-name">n8n</div><div class="logo-cat">Automation</div></div>
+      <div class="logo-item fade-up stagger-3"><div class="logo-name">HubSpot</div><div class="logo-cat">CRM</div></div>
+      <div class="logo-item fade-up stagger-4"><div class="logo-name">Apollo</div><div class="logo-cat">Prospecting</div></div>
+      <div class="logo-item fade-up stagger-5"><div class="logo-name">Instantly</div><div class="logo-cat">Email</div></div>
+      <div class="logo-item fade-up stagger-6"><div class="logo-name">Smartlead</div><div class="logo-cat">Email</div></div>
+      <div class="logo-item fade-up stagger-1"><div class="logo-name">HeyReach</div><div class="logo-cat">LinkedIn</div></div>
+      <div class="logo-item fade-up stagger-2"><div class="logo-name">PhantomBuster</div><div class="logo-cat">Scraping</div></div>
+      <div class="logo-item fade-up stagger-3"><div class="logo-name">Claude Code</div><div class="logo-cat">AI Agent</div></div>
+      <div class="logo-item fade-up stagger-4"><div class="logo-name">Trigify</div><div class="logo-cat">Signals</div></div>
+      <div class="logo-item fade-up stagger-5"><div class="logo-name">CloudTalk</div><div class="logo-cat">Calling</div></div>
+      <div class="logo-item fade-up stagger-6"><div class="logo-name">Supabase</div><div class="logo-cat">Database</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact" style="background:var(--surface);position:relative;z-index:10;">
+  <div class="container">
+    <div class="section-head"><span class="section-num">09 / CONTACT</span><h2>Let's build something</h2>
+      <p>Available for GTM Engineering, RevOps, End-to-End (AE/SDR/GTM Led Revenue Engineering), and AI Automation roles.</p>
+    </div>
+    <div class="contact-grid">
+      <div>
+        <div class="avail-badge">Available for new opportunities</div>
+        <div class="contact-item">shaikhrasul02@gmail.com</div>
+        <div class="contact-item">+91 7387244006</div>
+        <div class="contact-item">linkedin.com/in/rasulshaikh</div>
+        <div class="contact-item">Pune, MH 411002, India</div>
+      </div>
+      <form class="contact-form" onsubmit="this.querySelector('button').textContent='Sent';this.querySelector('button').style.background='#222';setTimeout(()=>{this.querySelector('button').textContent='Send Message';this.querySelector('button').style.background=''},3000);return false">
+        <input type="text" placeholder="Your name" required>
+        <input type="email" placeholder="Your email" required>
+        <input type="text" placeholder="Company">
+        <textarea placeholder="What are you working on?"></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-left">
+      <div class="footer-name">Rasul Shaikh</div>
+      <div class="footer-tagline">AI GTM Engineer</div>
+    </div>
+    <div class="footer-links">
+      <a href="mailto:shaikhrasul02@gmail.com" class="footer-cta">Let's Work Together →</a>
+      <a href="https://linkedin.com/in/rasulshaikh" target="_blank">LinkedIn</a>
+      <a href="mailto:shaikhrasul02@gmail.com">Email</a>
+      <a href="https://bold.pro/my/iamrasulshaikh/399r" target="_blank">Bold</a>
+    </div>
+  </div>
+  <div class="footer-bottom">Built with precision. Shipped with care.</div>
+</footer>
+
+<script>
+// ===== THREE.JS PARTICLE BACKGROUND =====
+(function() {
+  const canvas = document.getElementById('bg-canvas');
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.z = 30;
+
+  const particleCount = window.innerWidth < 768 ? 600 : 1200;
+  const geo = new THREE.BufferGeometry();
+  const positions = new Float32Array(particleCount * 3);
+  const colors = new Float32Array(particleCount * 3);
+
+  const colorOptions = [
+    new THREE.Color(0xFF6B35),
+    new THREE.Color(0xffffff),
+    new THREE.Color(0x888888),
+  ];
+
+  for (let i = 0; i < particleCount; i++) {
+    positions[i * 3] = (Math.random() - 0.5) * 80;
+    positions[i * 3 + 1] = (Math.random() - 0.5) * 80;
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 50;
+
+    const color = colorOptions[Math.floor(Math.random() * colorOptions.length)];
+    colors[i * 3] = color.r;
+    colors[i * 3 + 1] = color.g;
+    colors[i * 3 + 2] = color.b;
+  }
+
+  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+  const material = new THREE.PointsMaterial({
+    size: 0.1,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.5,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+  });
+
+  const particles = new THREE.Points(geo, material);
+  scene.add(particles);
+
+  let mouseX = 0, mouseY = 0;
+  let targetMouseX = 0, targetMouseY = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    targetMouseX = (e.clientX / window.innerWidth - 0.5) * 3;
+    targetMouseY = (e.clientY / window.innerHeight - 0.5) * 3;
+  });
+
+  function animate() {
+    requestAnimationFrame(animate);
+
+    mouseX += (targetMouseX - mouseX) * 0.03;
+    mouseY += (targetMouseY - mouseY) * 0.03;
+
+    particles.rotation.y = mouseX * 0.03;
+    particles.rotation.x = -mouseY * 0.03;
+
+    const positions = particles.geometry.attributes.position.array;
+    for (let i = 0; i < particleCount; i++) {
+      positions[i * 3 + 1] += Math.sin(Date.now() * 0.0003 + i * 0.1) * 0.001;
+    }
+    particles.geometry.attributes.position.needsUpdate = true;
+
+    renderer.render(scene, camera);
+  }
+
+  animate();
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+})();
+
+// ===== INTERSECTION OBSERVER FOR FADE-UP =====
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      fadeObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.05 });
+
+document.querySelectorAll('.fade-up').forEach(el => fadeObserver.observe(el));
+
+// ===== FAQ ACCORDION =====
+document.querySelectorAll('.faq-item').forEach(item => {
+  item.querySelector('.faq-q').addEventListener('click', () => {
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  });
+});
+
+// ===== COUNT-UP =====
+const countObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const target = parseFloat(el.dataset.count);
+      const suffix = el.dataset.suffix || '';
+      const prefix = el.textContent.includes('$') ? '$' : '';
+      const duration = 1500;
+      const startTime = performance.now();
+
+      function easeOutQuart(t) { return 1 - Math.pow(1 - t, 4); }
+
+      function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = easeOutQuart(progress);
+        const current = eased * target;
+
+        let display;
+        if (target >= 1000) {
+          display = prefix + current.toFixed(0) + suffix;
+        } else {
+          display = prefix + Math.floor(current) + suffix;
+        }
+
+        el.textContent = display;
+        if (progress < 1) requestAnimationFrame(update);
+      }
+
+      requestAnimationFrame(update);
+      countObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('[data-count]').forEach(el => countObserver.observe(el));
+</script>
+
+</body>
+</html>
