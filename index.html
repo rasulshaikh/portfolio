@@ -596,23 +596,50 @@
       .arsenal-metrics { display: none; }
     }
     @media (max-width: 768px) {
+      body { font-size: 16px; }
       section { padding: 72px 0; }
       nav { padding: 0 18px; }
+      nav .logo { font-size: 22px; }
       .container { padding: 0 18px; }
       .hero { padding-top: 120px; padding-bottom: 72px; }
-      .stats-grid { grid-template-columns: repeat(4, 1fr); }
-      .metrics-strip { grid-template-columns: repeat(2, 1fr); }
+      .hero h1 { font-size: clamp(40px, 10vw, 64px); }
+      .hero-badges { gap: 6px; }
+      .tag { font-size: 12px; padding: 6px 10px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .metrics-strip { grid-template-columns: 1fr; }
       .skills-grid { grid-template-columns: 1fr; }
       .camp-grid { grid-template-columns: 1fr; }
       .testi-grid { grid-template-columns: 1fr; }
       .contact-grid { grid-template-columns: 1fr; }
       .logos-grid { grid-template-columns: repeat(2, 1fr); }
-      .work-card { padding: 24px; }
-      .compare-row { grid-template-columns: 1fr 80px 80px; }
+      .work-card { padding: 20px; }
+      .work-card > p { font-size: 14px; }
+      .work-card ul li { font-size: 14px; }
+      .camp-card h3 { font-size: 16px; }
+      .camp-card > p, .camp-card .cs { font-size: 13px; }
+      .compare-table { font-size: 13px; }
+      .compare-row { grid-template-columns: 1fr 60px 60px; }
+      .compare-row .cell { padding: 10px 12px; }
+      .compare-row .cell .check, .compare-row .cell .cross { font-size: 16px; }
+      .section-head h2 { font-size: clamp(30px, 7vw, 44px); }
+      .section-head p { font-size: 14px; }
+      .faq-q { font-size: 15px; }
+      .faq-a-inner { font-size: 14px; }
+      .skill-card h3 { font-size: 16px; }
+      .skill-card p { font-size: 14px; }
+      .arsenal-body h3 { font-size: 16px; }
+      .arsenal-body > p { font-size: 14px; }
+      .arsenal-body pre { font-size: 12px; }
+      .testi-card p { font-size: 14px; }
+      .footer-inner { padding: 0 18px; flex-direction: column; text-align: center; gap: 12px; }
+      .footer-links { justify-content: center; flex-wrap: wrap; }
     }
     @media (max-width: 480px) {
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
       .metrics-strip { grid-template-columns: 1fr; }
+      .logos-grid { grid-template-columns: repeat(2, 1fr); }
+      .pipe-stage p { font-size: 12px; }
+      .footer-name { font-size: 16px; }
     }
   </style>
 </head>
@@ -1038,12 +1065,12 @@ API: X-N8N-API-KEY header auth</pre>
         <div class="contact-item">linkedin.com/in/rasulshaikh</div>
         <div class="contact-item">Pune, MH 411002, India</div>
       </div>
-      <form class="contact-form" onsubmit="this.querySelector('button').textContent='Sent';this.querySelector('button').style.background='#222';setTimeout(()=>{this.querySelector('button').textContent='Send Message';this.querySelector('button').style.background=''},3000);return false">
-        <input type="text" placeholder="Your name" required>
-        <input type="email" placeholder="Your email" required>
-        <input type="text" placeholder="Company">
-        <textarea placeholder="What are you working on?"></textarea>
-        <button type="submit">Send Message</button>
+      <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" onsubmit="handleSubmit(this)">
+        <input type="text" name="name" placeholder="Your name" required>
+        <input type="email" name="email" placeholder="Your email" required>
+        <input type="text" name="company" placeholder="Company">
+        <textarea name="message" placeholder="What are you working on?"></textarea>
+        <button type="submit" id="submit-btn">Send Message</button>
       </form>
     </div>
   </div>
@@ -1208,6 +1235,50 @@ const countObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.5 });
 
 document.querySelectorAll('[data-count]').forEach(el => countObserver.observe(el));
+
+// ===== FORM SUBMISSION =====
+async function handleSubmit(form) {
+  event.preventDefault();
+  const btn = form.querySelector('#submit-btn');
+  const originalText = btn.textContent;
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  try {
+    const response = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (response.ok) {
+      btn.textContent = 'Sent!';
+      btn.style.background = '#22c55e';
+      form.reset();
+      setTimeout(() => {
+        btn.textContent = originalText;
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 3000);
+    } else {
+      throw new Error('Form submission failed');
+    }
+  } catch (error) {
+    // Fallback: open mailto if Formspree not set up
+    const name = form.querySelector('[name="name"]').value;
+    const email = form.querySelector('[name="email"]').value;
+    const company = form.querySelector('[name="company"]').value;
+    const message = form.querySelector('[name="message"]').value;
+    const subject = encodeURIComponent(`Portfolio Contact from ${name}`);
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nCompany: ${company}\n\nMessage:\n${message}`);
+    window.location.href = `mailto:shaikhrasul02@gmail.com?subject=${subject}&body=${body}`;
+    btn.textContent = 'Opening Email...';
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.disabled = false;
+    }, 2000);
+  }
+}
 </script>
 
 </body>
