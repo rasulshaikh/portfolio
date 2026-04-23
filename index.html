@@ -596,42 +596,69 @@
       .arsenal-metrics { display: none; }
     }
     @media (max-width: 768px) {
-      body { font-size: 16px; }
-      section { padding: 72px 0; }
-      nav { padding: 0 18px; }
-      nav .logo { font-size: 22px; }
-      .container { padding: 0 18px; }
-      .hero { padding-top: 120px; padding-bottom: 72px; }
-      .hero h1 { font-size: clamp(40px, 10vw, 64px); }
+      body { font-size: 17px; }
+      section { padding: 60px 0; }
+      nav { padding: 0 16px; height: 56px; }
+      nav .logo { font-size: 20px; }
+      .container { padding: 0 16px; }
+      .hero { padding-top: 100px; padding-bottom: 60px; }
+      .hero h1 { font-size: clamp(36px, 10vw, 56px); line-height: 1.1; }
+      .hero-sub { font-size: 16px; }
       .hero-badges { gap: 6px; }
       .tag { font-size: 12px; padding: 6px 10px; }
-      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-      .metrics-strip { grid-template-columns: 1fr; }
-      .skills-grid { grid-template-columns: 1fr; }
-      .camp-grid { grid-template-columns: 1fr; }
-      .testi-grid { grid-template-columns: 1fr; }
-      .contact-grid { grid-template-columns: 1fr; }
-      .logos-grid { grid-template-columns: repeat(2, 1fr); }
-      .work-card { padding: 20px; }
-      .work-card > p { font-size: 14px; }
-      .work-card ul li { font-size: 14px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .stat .num { font-size: 20px; }
+      .stat .lbl { font-size: 10px; }
+      .metrics-strip { grid-template-columns: 1fr; gap: 16px; }
+      .section-head h2 { font-size: clamp(28px, 8vw, 40px); }
+      .section-head p { font-size: 14px; }
+      .section-num { font-size: 10px; }
+      .skills-grid { grid-template-columns: 1fr; gap: 12px; }
+      .skill-card { padding: 18px; }
+      .skill-card h3 { font-size: 17px; }
+      .skill-card p { font-size: 14px; }
+      .camp-grid { grid-template-columns: 1fr; gap: 12px; }
+      .camp-card { padding: 18px; }
       .camp-card h3 { font-size: 16px; }
       .camp-card > p, .camp-card .cs { font-size: 13px; }
-      .compare-table { font-size: 13px; }
-      .compare-row { grid-template-columns: 1fr 60px 60px; }
-      .compare-row .cell { padding: 10px 12px; }
-      .compare-row .cell .check, .compare-row .cell .cross { font-size: 16px; }
-      .section-head h2 { font-size: clamp(30px, 7vw, 44px); }
-      .section-head p { font-size: 14px; }
-      .faq-q { font-size: 15px; }
-      .faq-a-inner { font-size: 14px; }
-      .skill-card h3 { font-size: 16px; }
-      .skill-card p { font-size: 14px; }
-      .arsenal-body h3 { font-size: 16px; }
-      .arsenal-body > p { font-size: 14px; }
-      .arsenal-body pre { font-size: 12px; }
+      .testi-grid { grid-template-columns: 1fr; gap: 12px; }
       .testi-card p { font-size: 14px; }
-      .footer-inner { padding: 0 18px; flex-direction: column; text-align: center; gap: 12px; }
+      .contact-grid { grid-template-columns: 1fr; gap: 24px; }
+      .logos-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .logos-grid .logo-item { padding: 14px; }
+      .work-card { padding: 18px; }
+      .work-card > p { font-size: 14px; }
+      .work-card ul li { font-size: 13px; padding-left: 14px; }
+      .compare-table { font-size: 12px; }
+      .compare-row { grid-template-columns: 1fr 50px 50px; }
+      .compare-row .cell { padding: 8px 10px; }
+      .compare-row .cell .check, .compare-row .cell .cross { font-size: 14px; }
+      .faq-q { font-size: 15px; padding: 14px 16px; }
+      .faq-a-inner { font-size: 13px; }
+      /* Arsenal Mobile Fix */
+      .arsenal-list { gap: 12px; }
+      .arsenal-item {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        padding: 20px;
+        gap: 12px;
+      }
+      .arsenal-num { font-size: 24px; margin-bottom: 4px; }
+      .arsenal-body h3 { font-size: 16px; }
+      .arsenal-body > p { font-size: 14px; margin-bottom: 10px; }
+      .arsenal-body pre {
+        font-size: 11px;
+        white-space: pre-wrap;
+        word-break: break-word;
+        overflow-x: visible;
+        padding: 8px 12px;
+        margin-bottom: 10px;
+      }
+      .arsenal-metrics { display: flex !important; flex-direction: row; gap: 20px; justify-content: flex-start; }
+      .arsenal-metrics .m { font-size: 11px; }
+      .arsenal-metrics .m span { font-size: 14px; }
+      .testi-card p { font-size: 14px; }
+      .footer-inner { padding: 0 16px; flex-direction: column; text-align: center; gap: 12px; }
       .footer-links { justify-content: center; flex-wrap: wrap; }
     }
     @media (max-width: 480px) {
