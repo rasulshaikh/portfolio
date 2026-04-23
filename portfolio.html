@@ -23,13 +23,21 @@
       --green: #22c55e;
       --green-dim: rgba(34, 197, 94, 0.1);
       --red: #ef4444;
+      /* Glass effect variables */
+      --glass-bg: rgba(255, 255, 255, 0.03);
+      --glass-bg-strong: rgba(255, 255, 255, 0.06);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-shadow: rgba(0, 0, 0, 0.3);
+      --glass-shadow-strong: rgba(0, 0, 0, 0.5);
+      --glass-blur: 20px;
+      --glass-gradient: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 50%);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
       font-family: 'VT323', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 18px;
+      font-size: 20px;
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
@@ -51,9 +59,10 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 100;
-      background: rgba(10, 10, 10, 0.9);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
+      background: rgba(10, 10, 10, 0.7);
+      backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+      -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+      border-bottom: 1px solid var(--glass-border);
       padding: 0 48px;
       height: 64px;
       display: flex;
@@ -61,7 +70,7 @@
       justify-content: space-between;
     }
     nav .logo {
-      font-size: 26px;
+      font-size: 28px;
       font-weight: 800;
       text-decoration: none;
       color: var(--red);
@@ -100,7 +109,7 @@
     /* ===== HERO ===== */
     .hero { padding-top: 160px; padding-bottom: 100px; }
     .hero h1 {
-      font-size: clamp(58px, 9vw, 96px);
+      font-size: clamp(64px, 10vw, 104px);
       font-weight: 800;
       letter-spacing: -0.03em;
       line-height: 1;
@@ -133,7 +142,7 @@
       display: inline-flex; align-items: center; gap: 8px;
       background: var(--accent); color: #fff;
       border: none; border-radius: 8px;
-      padding: 14px 28px; font-size: 13px; font-weight: 600;
+      padding: 16px 32px; font-size: 16px; font-weight: 700;
       transition: all 0.2s; cursor: pointer; text-decoration: none;
     }
     .btn-primary:hover { background: #ff8255; transform: translateY(-2px); }
@@ -142,7 +151,7 @@
       display: inline-flex; align-items: center; gap: 8px;
       background: transparent; color: var(--text);
       border: 1px solid var(--border); border-radius: 8px;
-      padding: 14px 28px; font-size: 13px; font-weight: 600;
+      padding: 16px 32px; font-size: 16px; font-weight: 600;
       transition: all 0.2s; cursor: pointer; text-decoration: none;
     }
     .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
@@ -151,16 +160,20 @@
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(8, 1fr);
-      border: 1px solid var(--border);
+      border: 1px solid var(--glass-border);
       border-radius: 12px;
       overflow: hidden;
-      background: var(--surface);
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
     }
     .stat {
       padding: 24px 14px;
-      border-right: 1px solid var(--border);
+      border-right: 1px solid var(--glass-border);
       text-align: center;
+      transition: all 0.2s;
     }
+    .stat:hover { background: var(--glass-bg-strong); }
     .stat:last-child { border-right: none; }
     .stat .num {
       font-size: 22px;
@@ -183,15 +196,19 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 1px;
-      background: var(--border);
+      background: var(--glass-border);
       border-radius: 12px;
       overflow: hidden;
     }
     .metric {
-      background: var(--surface);
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
       padding: 36px 24px;
       text-align: center;
+      transition: all 0.3s;
     }
+    .metric:hover { background: var(--glass-bg-strong); transform: translateY(-2px); }
     .metric .big {
       font-size: 32px;
       font-weight: 700;
@@ -217,7 +234,7 @@
       display: block;
     }
     .section-head h2 {
-      font-size: clamp(36px, 5vw, 52px);
+      font-size: clamp(40px, 6vw, 60px);
       font-weight: 700;
       letter-spacing: -0.02em;
       line-height: 1.1;
@@ -234,17 +251,19 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
+      background: var(--glass-border);
+      border: 1px solid var(--glass-border);
       border-radius: 12px;
       overflow: hidden;
     }
     .codex-item {
-      background: var(--surface);
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
       padding: 32px 24px;
-      transition: all 0.2s;
+      transition: all 0.3s;
     }
-    .codex-item:hover { background: var(--surface2); }
+    .codex-item:hover { background: var(--glass-bg-strong); transform: translateY(-2px); }
     .codex-item h3 {
       font-size: 15px;
       font-weight: 600;
@@ -259,13 +278,25 @@
     /* ===== WORK ===== */
     .work-grid { display: flex; flex-direction: column; gap: 3px; }
     .work-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid var(--glass-border);
       border-radius: 12px;
       padding: 32px 36px;
-      transition: all 0.2s;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
     }
-    .work-card:hover { border-color: rgba(255, 107, 53, 0.3); }
+    .work-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--glass-gradient);
+      pointer-events: none;
+    }
+    .work-card:hover { border-color: rgba(255, 107, 53, 0.4); transform: translateY(-2px); box-shadow: 0 8px 32px var(--glass-shadow); }
     .work-card-header {
       display: flex;
       justify-content: space-between;
@@ -314,13 +345,25 @@
     /* ===== SKILLS ===== */
     .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
     .skill-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid var(--glass-border);
       border-radius: 12px;
       padding: 24px;
-      transition: all 0.2s;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
     }
-    .skill-card:hover { border-color: rgba(255, 107, 53, 0.3); transform: translateY(-2px); }
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--glass-gradient);
+      pointer-events: none;
+    }
+    .skill-card:hover { border-color: rgba(255, 107, 53, 0.4); transform: translateY(-4px); box-shadow: 0 12px 40px var(--glass-shadow); }
     .skill-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
     .skill-card p { font-size: 16px; color: var(--text); line-height: 1.5; margin-bottom: 12px; }
     .skill-card .cats { display: flex; flex-wrap: wrap; gap: 5px; }
@@ -332,12 +375,25 @@
       grid-template-columns: 56px 1fr auto;
       align-items: start;
       gap: 24px;
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid var(--glass-border);
       border-radius: 12px;
       padding: 28px 32px;
-      transition: all 0.2s;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
     }
+    .arsenal-item::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--glass-gradient);
+      pointer-events: none;
+    }
+    .arsenal-item:hover { border-color: rgba(255, 107, 53, 0.4); box-shadow: 0 8px 32px var(--glass-shadow); }
     .arsenal-item:hover { border-color: rgba(255, 107, 53, 0.2); }
     .arsenal-num {
       font-size: 28px;
@@ -366,13 +422,25 @@
     /* ===== CAMPAIGNS ===== */
     .camp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
     .camp-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid var(--glass-border);
       border-radius: 12px;
       padding: 24px;
-      transition: all 0.2s;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
     }
-    .camp-card:hover { border-color: rgba(255, 107, 53, 0.3); transform: translateY(-2px); }
+    .camp-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--glass-gradient);
+      pointer-events: none;
+    }
+    .camp-card:hover { border-color: rgba(255, 107, 53, 0.4); transform: translateY(-4px); box-shadow: 0 12px 40px var(--glass-shadow); }
     .camp-card .ci { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 10px; display: block; }
     .camp-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
     .camp-card > p { font-size: 15px; color: var(--text); margin-bottom: 12px; line-height: 1.5; }
@@ -384,14 +452,25 @@
     .pipeline { display: flex; gap: 8px; min-width: 900px; }
     .pipe-stage {
       flex: 1;
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid var(--glass-border);
       border-radius: 10px;
       padding: 20px 14px;
       position: relative;
-      transition: all 0.2s;
+      transition: all 0.3s;
+      overflow: hidden;
     }
-    .pipe-stage:hover { border-color: rgba(255, 107, 53, 0.3); }
+    .pipe-stage::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--glass-gradient);
+      pointer-events: none;
+    }
+    .pipe-stage:hover { border-color: rgba(255, 107, 53, 0.4); box-shadow: 0 8px 32px var(--glass-shadow); transform: translateY(-2px); }
     .pipe-stage:not(:last-child)::after {
       content: '→';
       position: absolute;
@@ -412,11 +491,25 @@
     /* ===== TESTIMONIALS ===== */
     .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
     .testi-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid var(--glass-border);
       border-radius: 12px;
       padding: 24px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
     }
+    .testi-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--glass-gradient);
+      pointer-events: none;
+    }
+    .testi-card:hover { border-color: rgba(255, 107, 53, 0.4); transform: translateY(-4px); box-shadow: 0 12px 40px var(--glass-shadow); }
     .testi-card .quote-icon { font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.2; color: var(--accent); }
     .testi-card p { font-size: 16px; color: var(--text); line-height: 1.6; margin-bottom: 16px; font-style: italic; }
     .testi-card .attr { display: flex; align-items: center; gap: 10px; }
@@ -433,22 +526,30 @@
 
     /* ===== COMPARE ===== */
     .compare-table {
-      border: 1px solid var(--border);
+      border: 1px solid var(--glass-border);
       border-radius: 12px;
       overflow: hidden;
-      background: var(--surface);
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
     }
     .compare-row {
       display: grid;
       grid-template-columns: 1fr 140px 140px;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--glass-border);
+      transition: background 0.2s;
     }
     .compare-row:last-child { border-bottom: none; }
+    .compare-row:hover { background: rgba(255, 255, 255, 0.02); }
     .compare-row .cell { padding: 14px 20px; font-size: 15px; color: var(--text); }
     .compare-row .cell:first-child { color: var(--text); font-weight: 500; }
     .compare-row .cell .check { color: var(--accent); font-weight: 700; font-size: 18px; }
     .compare-row .cell .cross { color: var(--border); font-weight: 700; font-size: 18px; }
-    .compare-header { background: var(--surface2); }
+    .compare-header {
+      background: var(--glass-bg-strong);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+    }
     .compare-header .cell { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text); }
 
     /* ===== LOGOS ===== */
@@ -456,30 +557,44 @@
       display: grid;
       grid-template-columns: repeat(6, 1fr);
       gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
+      background: var(--glass-border);
+      border: 1px solid var(--glass-border);
       border-radius: 12px;
       overflow: hidden;
     }
     .logo-item {
-      background: var(--surface);
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
       padding: 22px 14px;
       text-align: center;
-      transition: all 0.2s;
+      transition: all 0.3s;
     }
-    .logo-item:hover { background: var(--surface2); }
+    .logo-item:hover { background: var(--glass-bg-strong); transform: translateY(-2px); }
     .logo-item .logo-name { font-size: 15px; font-weight: 600; color: var(--text); }
     .logo-item .logo-cat { font-size: 12px; color: var(--text); margin-top: 2px; }
 
     /* ===== FAQ ===== */
     .faq-list { display: flex; flex-direction: column; gap: 3px; }
     .faq-item {
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid var(--glass-border);
       border-radius: 10px;
       overflow: hidden;
+      transition: all 0.3s;
+      position: relative;
     }
-    .faq-item:hover { border-color: rgba(255, 107, 53, 0.2); }
+    .faq-item::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--glass-gradient);
+      pointer-events: none;
+    }
+    .faq-item:hover { border-color: rgba(255, 107, 53, 0.4); box-shadow: 0 8px 32px var(--glass-shadow); }
     .faq-item.open { border-color: rgba(255, 107, 53, 0.3); }
     .faq-q {
       width: 100%;
@@ -507,19 +622,22 @@
     .contact-item { display: flex; align-items: center; gap: 10px; font-size: 16px; color: var(--text); margin-bottom: 14px; }
     .contact-form { display: flex; flex-direction: column; gap: 10px; }
     .contact-form input, .contact-form textarea {
-      background: var(--surface2);
-      border: 1px solid var(--border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid var(--glass-border);
       border-radius: 8px;
       padding: 14px 16px;
       color: var(--text);
       font-size: 16px;
       font-family: inherit;
       width: 100%;
-      transition: all 0.2s;
+      transition: all 0.3s;
     }
     .contact-form input:focus, .contact-form textarea:focus {
       outline: none;
       border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.15);
     }
     .contact-form textarea { resize: vertical; min-height: 110px; }
     .contact-form button {
@@ -557,17 +675,48 @@
     }
 
     /* ===== FOOTER ===== */
-    footer { border-top: 1px solid var(--border); padding: 40px 0; position: relative; z-index: 10; }
-    footer .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; max-width: 1100px; margin: 0 auto; padding: 0 48px; }
-    footer .footer-left { display: flex; align-items: center; gap: 20px; }
-    footer .footer-name { font-size: 18px; font-weight: 800; color: var(--accent); letter-spacing: -0.5px; }
-    footer .footer-tagline { font-size: 11px; color: var(--text); opacity: 0.6; }
+    footer {
+      background: rgba(10, 10, 10, 0.8);
+      backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+      -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+      border-top: 1px solid var(--glass-border);
+      padding: 40px 0; position: relative; z-index: 10;
+    }
+    footer .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 48px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+    footer .footer-inner::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--glass-gradient);
+      pointer-events: none;
+    }
+    footer .footer-left { display: flex; align-items: center; gap: 24px; }
+    footer .footer-name { font-size: 20px; font-weight: 800; color: var(--accent); letter-spacing: -0.5px; }
+    footer .footer-tagline { font-size: 14px; color: var(--text); opacity: 0.7; }
     footer .footer-links { display: flex; gap: 20px; align-items: center; }
-    footer .footer-links a { font-size: 11px; color: var(--text); text-decoration: none; transition: color 0.2s; }
+    footer .footer-links a { font-size: 14px; color: var(--text); text-decoration: none; transition: color 0.2s; display: flex; align-items: center; gap: 8px; }
     footer .footer-links a:hover { color: var(--accent); }
-    footer .footer-cta { font-size: 11px; background: var(--accent); color: #000; font-weight: 600; padding: 8px 16px; border-radius: 4px; text-decoration: none; transition: all 0.2s; }
-    footer .footer-cta:hover { background: #fff; }
-    footer .footer-bottom { max-width: 1100px; margin: 20px auto 0; padding: 16px 48px 0; border-top: 1px solid var(--border); font-size: 10px; color: var(--text); opacity: 0.4; text-align: center; }
+    footer .footer-links a svg { width: 18px; height: 18px; fill: currentColor; }
+    footer .footer-cta { font-size: 14px; background: var(--accent); color: #000; font-weight: 700; padding: 12px 24px; border-radius: 6px; text-decoration: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+    footer .footer-cta:hover { background: #fff; transform: translateY(-2px); }
+    footer .footer-bottom { max-width: 1100px; margin: 24px auto 0; padding: 20px 48px 0; border-top: 1px solid var(--border); font-size: 12px; color: var(--text); opacity: 0.5; text-align: center; }
 
     /* ===== ANIMATIONS ===== */
     .fade-up {
@@ -596,23 +745,83 @@
       .arsenal-metrics { display: none; }
     }
     @media (max-width: 768px) {
-      section { padding: 72px 0; }
-      nav { padding: 0 18px; }
-      .container { padding: 0 18px; }
-      .hero { padding-top: 120px; padding-bottom: 72px; }
-      .stats-grid { grid-template-columns: repeat(4, 1fr); }
-      .metrics-strip { grid-template-columns: repeat(2, 1fr); }
-      .skills-grid { grid-template-columns: 1fr; }
-      .camp-grid { grid-template-columns: 1fr; }
-      .testi-grid { grid-template-columns: 1fr; }
-      .contact-grid { grid-template-columns: 1fr; }
-      .logos-grid { grid-template-columns: repeat(2, 1fr); }
-      .work-card { padding: 24px; }
-      .compare-row { grid-template-columns: 1fr 80px 80px; }
+      body { font-size: 17px; }
+      section { padding: 60px 0; }
+      nav { padding: 0 16px; height: 56px; }
+      nav .logo { font-size: 20px; }
+      .container { padding: 0 16px; }
+      .hero { padding-top: 100px; padding-bottom: 60px; }
+      .hero h1 { font-size: clamp(36px, 10vw, 56px); line-height: 1.1; }
+      .hero-sub { font-size: 16px; }
+      .hero-badges { gap: 6px; }
+      .tag { font-size: 12px; padding: 6px 10px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .stat .num { font-size: 20px; }
+      .stat .lbl { font-size: 10px; }
+      .metrics-strip { grid-template-columns: 1fr; gap: 16px; }
+      .section-head h2 { font-size: clamp(28px, 8vw, 40px); }
+      .section-head p { font-size: 14px; }
+      .section-num { font-size: 10px; }
+      .skills-grid { grid-template-columns: 1fr; gap: 12px; }
+      .skill-card { padding: 18px; }
+      .skill-card h3 { font-size: 17px; }
+      .skill-card p { font-size: 14px; }
+      .camp-grid { grid-template-columns: 1fr; gap: 12px; }
+      .camp-card { padding: 18px; }
+      .camp-card h3 { font-size: 16px; }
+      .camp-card > p, .camp-card .cs { font-size: 13px; }
+      .testi-grid { grid-template-columns: 1fr; gap: 12px; }
+      .testi-card p { font-size: 14px; }
+      .contact-grid { grid-template-columns: 1fr; gap: 24px; }
+      .logos-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .logos-grid .logo-item { padding: 14px; }
+      .work-card { padding: 18px; }
+      .work-card > p { font-size: 14px; }
+      .work-card ul li { font-size: 13px; padding-left: 14px; }
+      .compare-table { font-size: 12px; }
+      .compare-row { grid-template-columns: 1fr 50px 50px; }
+      .compare-row .cell { padding: 8px 10px; }
+      .compare-row .cell .check, .compare-row .cell .cross { font-size: 14px; }
+      .faq-q { font-size: 15px; padding: 14px 16px; }
+      .faq-a-inner { font-size: 13px; }
+      /* Arsenal Mobile Fix */
+      .arsenal-list { gap: 12px; }
+      .arsenal-item {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        padding: 20px;
+        gap: 12px;
+      }
+      .arsenal-num { font-size: 24px; margin-bottom: 4px; }
+      .arsenal-body h3 { font-size: 16px; }
+      .arsenal-body > p { font-size: 14px; margin-bottom: 10px; }
+      .arsenal-body pre {
+        font-size: 11px;
+        white-space: pre-wrap;
+        word-break: break-word;
+        overflow-x: visible;
+        padding: 8px 12px;
+        margin-bottom: 10px;
+      }
+      .arsenal-metrics { display: flex !important; flex-direction: row; gap: 20px; justify-content: flex-start; }
+      .arsenal-metrics .m { font-size: 11px; }
+      .arsenal-metrics .m span { font-size: 14px; }
+      .testi-card p { font-size: 14px; }
+      .footer-inner { padding: 0 16px; flex-direction: column; text-align: center; gap: 16px; }
+      .footer-left { justify-content: center; }
+      .footer-links { justify-content: center; flex-wrap: wrap; gap: 12px; }
+      .footer-links a { font-size: 15px; }
+      .footer-cta { font-size: 15px; padding: 14px 20px; }
+      .footer-bottom { font-size: 11px; }
     }
     @media (max-width: 480px) {
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
       .metrics-strip { grid-template-columns: 1fr; }
+      .logos-grid { grid-template-columns: repeat(2, 1fr); }
+      .pipe-stage p { font-size: 13px; }
+      .footer-name { font-size: 18px; }
+      .footer-links a { font-size: 14px; }
+      .footer-links svg { width: 14px; height: 14px; }
     }
   </style>
 </head>
@@ -651,7 +860,7 @@
     </div>
 
     <div style="display:flex;gap:10px;" data-animate>
-      <a href="#contact" class="btn-primary">Hire Me -</a>
+      <a href="#contact" class="btn-primary">Hire Me</a>
       <a href="#work" class="btn-outline">View Work</a>
     </div>
 
@@ -820,96 +1029,96 @@
 <section id="arsenal" style="background:var(--surface);position:relative;z-index:10;">
   <div class="container">
     <div class="section-head"><span class="section-num">03 / THE ARSENAL</span><h2>The Arsenal</h2>
-      <p>Six flagship systems. Each one eliminates manual work and compounds over time.</p>
+      <p>Six battle-tested systems. Each compounds over time and kills repetitive work.</p>
     </div>
     <div class="arsenal-list">
       <div class="arsenal-item fade-up stagger-1">
         <div class="arsenal-num">01</div>
         <div class="arsenal-body">
-          <h3>L3 7-Agent SEO Displacement Pipeline</h3>
-          <p>Full SEO stack displacement campaign engine on Clay with 7 AI agents. Signal routing from keywords, profile engagement, and social listening.</p>
-          <pre>Clay (A1-A7 agents) - n8n - Supabase - Slack - HubSpot
+          <h3>7-Agent SEO Displacement Engine</h3>
+          <p>Clay-powered campaign machine that finds gaps in competitor SEO and fills them. 7 AI agents work in sequence to research, write, and deploy at scale.</p>
+          <pre>Clay (A1-A7 agents) → n8n → Supabase → HubSpot
 
-Signals: SEMrush, Ahrefs, Moz, BrightEdge, Conductor</pre>
+Signal sources: SEMrush, Ahrefs, Moz, BrightEdge</pre>
           <div class="a-badges"><span class="tag accent">Clay</span><span class="tag accent">n8n</span><span class="tag">AI</span></div>
         </div>
         <div class="arsenal-metrics">
           <div class="m"><span>1.5%+</span>response rate</div>
-          <div class="m"><span>3 day</span>deployment</div>
+          <div class="m"><span>3 days</span>to deploy</div>
         </div>
       </div>
       <div class="arsenal-item fade-up stagger-2">
         <div class="arsenal-num">02</div>
         <div class="arsenal-body">
-          <h3>Bidirectional Clay-n8n Integration</h3>
-          <p>Real-time data sync between Clay and n8n via webhook architecture. Row-level updates, auto-push config, CRM enrichment pipeline.</p>
-          <pre>Clay HTTP API - n8n Webhook - Enrich - Respond
+          <h3>Clay-n8n Bidirectional Sync</h3>
+          <p>Data flows both ways in real-time. Clay enriches → n8n processes → CRM stays clean. No manual copy-paste. No stale data.</p>
+          <pre>Clay API → n8n Webhook → Enrich → Push to CRM
 
-Supports: Apollo, Clearbit, ZeroBounce</pre>
+Hooks: Apollo, Clearbit, ZeroBounce</pre>
           <div class="a-badges"><span class="tag accent">Clay</span><span class="tag">n8n</span></div>
         </div>
         <div class="arsenal-metrics">
-          <div class="m"><span>Real-time</span>sync</div>
-          <div class="m"><span>Row-level</span>updates</div>
+          <div class="m"><span>Real-time</span>data sync</div>
+          <div class="m"><span>Row-level</span>precision</div>
         </div>
       </div>
       <div class="arsenal-item fade-up stagger-3">
         <div class="arsenal-num">03</div>
         <div class="arsenal-body">
-          <h3>Instantly Auto-Reply Engine</h3>
-          <p>Intelligent auto-reply reading incoming Instantly threads, looking up campaign context, and generating contextual replies via Claude.</p>
-          <pre>Instantly webhook - Sheets lookup - Claude - Instantly API
+          <h3>Instantly Auto-Reply System</h3>
+          <p>Never miss a reply. Bot reads incoming threads, pulls campaign context, and fires back human-like responses while you sleep.</p>
+          <pre>Instantly → n8n webhook → Claude Haiku → Reply
 
-Knowledge base: campaign ID, offers, tone, reply examples</pre>
+Context: offers, tone, past exchanges</pre>
           <div class="a-badges"><span class="tag accent">Email</span><span class="tag">AI</span></div>
         </div>
         <div class="arsenal-metrics">
-          <div class="m"><span>Automated</span>threading</div>
-          <div class="m"><span>Contextual</span>replies</div>
+          <div class="m"><span>24/7</span>coverage</div>
+          <div class="m"><span>Instant</span>responses</div>
         </div>
       </div>
       <div class="arsenal-item fade-up stagger-4">
         <div class="arsenal-num">04</div>
         <div class="arsenal-body">
-          <h3>HubSpot Lead Routing and Scoring</h3>
-          <p>AI-powered lead scoring and routing system. Qualify - Score - Route to AE - Slack DM. Runs on OpenAI with conditional tier-based routing.</p>
-          <pre>HubSpot trigger - Enrich (HTTP) - AI Score (OpenAI) - Switch
+          <h3>HubSpot AI Lead Router</h3>
+          <p>Leads hit your CRM → AI scores them → Hot leads route to AE with Slack DM. Cold leads get nurture. No manual triaging.</p>
+          <pre>HubSpot trigger → AI scoring (OpenAI) → Route
 
-80+ = Hot - Create Deal + Slack DM</pre>
-          <div class="a-badges"><span class="tag accent">Clay</span><span class="tag accent">HubSpot</span></div>
+80+ score: Create Deal + ping AE on Slack</pre>
+          <div class="a-badges"><span class="tag accent">HubSpot</span><span class="tag accent">OpenAI</span></div>
         </div>
         <div class="arsenal-metrics">
-          <div class="m"><span>48h-9.6h</span>qualification</div>
-          <div class="m"><span>15h/wk</span>saved</div>
+          <div class="m"><span>48h → 9.6h</span>qualify</div>
+          <div class="m"><span>15h/week</span>saved</div>
         </div>
       </div>
       <div class="arsenal-item fade-up stagger-5">
         <div class="arsenal-num">05</div>
         <div class="arsenal-body">
-          <h3>Google Maps B2B Lead Pipeline</h3>
-          <p>Multi-stage pipeline: Apify Maps scraper - website contact extractor - DuckDuckGo enrichment - Claude Haiku extraction.</p>
-          <pre>Apify - Website scrape - DuckDuckGo - Claude Haiku - Sheets
+          <h3>Google Maps B2B Scraper</h3>
+          <p>Find any business on Maps → scrape owner, contacts, social → enrich with 36 fields → export to Sheets. $0.01 per lead.</p>
+          <pre>Apify Maps → Website scrape → DuckDuckGo → Claude Haiku
 
-36-field schema: business info, contacts, social, owner data</pre>
-          <div class="a-badges"><span class="tag accent">Lead Gen</span><span class="tag">AI</span></div>
+Output: 36 fields per lead, clean and structured</pre>
+          <div class="a-badges"><span class="tag accent">Apify</span><span class="tag">Claude Haiku</span></div>
         </div>
         <div class="arsenal-metrics">
-          <div class="m"><span>$0.01-0.02</span>per lead</div>
-          <div class="m"><span>36</span>data fields</div>
+          <div class="m"><span>$0.01</span>per lead</div>
+          <div class="m"><span>36 fields</span>enriched</div>
         </div>
       </div>
       <div class="arsenal-item fade-up stagger-6">
         <div class="arsenal-num">06</div>
         <div class="arsenal-body">
-          <h3>Self-Hosted n8n Elite Stack</h3>
-          <p>Production n8n at thexeme.com with Docker, PostgreSQL, queue mode, and 3 elite workflows. X-N8N-API-KEY header auth.</p>
+          <h3>Self-Hosted n8n Stack</h3>
+          <p>Full n8n instance at thexeme.com. Docker, PostgreSQL, Redis queue mode. Own your infrastructure. No per-execution limits.</p>
           <pre>Docker + PostgreSQL + Redis (queue mode)
 
-API: X-N8N-API-KEY header auth</pre>
+Auth: X-N8N-API-KEY header</pre>
           <div class="a-badges"><span class="tag accent">n8n</span><span class="tag">Self-Hosted</span></div>
         </div>
         <div class="arsenal-metrics">
-          <div class="m"><span>3</span>elite workflows</div>
+          <div class="m"><span>Unlimited</span>executions</div>
           <div class="m"><span>$55-140</span>infra/mo</div>
         </div>
       </div>
@@ -1038,12 +1247,12 @@ API: X-N8N-API-KEY header auth</pre>
         <div class="contact-item">linkedin.com/in/rasulshaikh</div>
         <div class="contact-item">Pune, MH 411002, India</div>
       </div>
-      <form class="contact-form" onsubmit="this.querySelector('button').textContent='Sent';this.querySelector('button').style.background='#222';setTimeout(()=>{this.querySelector('button').textContent='Send Message';this.querySelector('button').style.background=''},3000);return false">
-        <input type="text" placeholder="Your name" required>
-        <input type="email" placeholder="Your email" required>
-        <input type="text" placeholder="Company">
-        <textarea placeholder="What are you working on?"></textarea>
-        <button type="submit">Send Message</button>
+      <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" onsubmit="handleSubmit(this)">
+        <input type="text" name="name" placeholder="Your name" required>
+        <input type="email" name="email" placeholder="Your email" required>
+        <input type="text" name="company" placeholder="Company">
+        <textarea name="message" placeholder="What are you working on?"></textarea>
+        <button type="submit" id="submit-btn">Send Message</button>
       </form>
     </div>
   </div>
@@ -1058,9 +1267,18 @@ API: X-N8N-API-KEY header auth</pre>
     </div>
     <div class="footer-links">
       <a href="mailto:shaikhrasul02@gmail.com" class="footer-cta">Let's Work Together →</a>
-      <a href="https://linkedin.com/in/rasulshaikh" target="_blank">LinkedIn</a>
-      <a href="mailto:shaikhrasul02@gmail.com">Email</a>
-      <a href="https://bold.pro/my/iamrasulshaikh/399r" target="_blank">Bold</a>
+      <a href="https://linkedin.com/in/rasulshaikh" target="_blank">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+      <a href="mailto:shaikhrasul02@gmail.com">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
+        Email
+      </a>
+      <a href="https://bold.pro/my/iamrasulshaikh/399r" target="_blank">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0L1.604 6v12L12 24l10.396-6V6L12 0zm0 2.16l8.34 4.8v9.12L12 20.84l-8.34-4.8V6.96L12 2.16z"/></svg>
+        Bold
+      </a>
     </div>
   </div>
   <div class="footer-bottom">Built with precision. Shipped with care.</div>
@@ -1208,6 +1426,50 @@ const countObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.5 });
 
 document.querySelectorAll('[data-count]').forEach(el => countObserver.observe(el));
+
+// ===== FORM SUBMISSION =====
+async function handleSubmit(form) {
+  event.preventDefault();
+  const btn = form.querySelector('#submit-btn');
+  const originalText = btn.textContent;
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  try {
+    const response = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (response.ok) {
+      btn.textContent = 'Sent!';
+      btn.style.background = '#22c55e';
+      form.reset();
+      setTimeout(() => {
+        btn.textContent = originalText;
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 3000);
+    } else {
+      throw new Error('Form submission failed');
+    }
+  } catch (error) {
+    // Fallback: open mailto if Formspree not set up
+    const name = form.querySelector('[name="name"]').value;
+    const email = form.querySelector('[name="email"]').value;
+    const company = form.querySelector('[name="company"]').value;
+    const message = form.querySelector('[name="message"]').value;
+    const subject = encodeURIComponent(`Portfolio Contact from ${name}`);
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nCompany: ${company}\n\nMessage:\n${message}`);
+    window.location.href = `mailto:shaikhrasul02@gmail.com?subject=${subject}&body=${body}`;
+    btn.textContent = 'Opening Email...';
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.disabled = false;
+    }, 2000);
+  }
+}
 </script>
 
 </body>
